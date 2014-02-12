@@ -1,5 +1,6 @@
 package client;
 
-public class Model {
-
+public class Model 
+{
+	private int board[][] = new int[3][3];
 }

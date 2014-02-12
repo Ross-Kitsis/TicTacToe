@@ -30,15 +30,19 @@ public class View extends JFrame
 	private static final String b21 = "21";
 	private static final String b22 = "22";
 	
+	//Model
+	private Model m;
+	
 	public View(Model m)
 	{
 		super.setSize(800,800);
 		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		super.setLayout(new GridBagLayout());
-		
-		JFrame hosts = new JFrame(); //JFrame to hold the list of users
-		
-		
+		this.m = m;
+		this.setNewBoard();
+	}
+	private void setNewBoard()
+	{
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton button; 
@@ -131,13 +135,40 @@ public class View extends JFrame
 		c.gridy = 3;
 		super.add(f, c);
 		
+		button = new JButton(JOIN);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.25;
+		c.weighty = 0.05;
+		c.gridx = 1;
+		c.gridy = 3;
+		super.add(button, c);
+		
+		button = new JButton(LEAVE);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.25;
+		c.weighty = 0.05;
+		c.gridx = 2;
+		c.gridy = 3;
+		super.add(button, c);
 		
 		
-//Scroll panel displaying other hosts		
+//Scroll panel displaying other hosts
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 3;
 		c.gridy = 0;
 		c.gridheight = 4;
-		super.add(new JScrollPane(),c);
+		JPanel t = new JPanel();
+		t.setLayout(new GridLayout(10,1));
+		JScrollPane jsp = new JScrollPane(t);
+		//jsp.setLayout(new GridLayout(1,10));
+		t.add(new Button("Test1"));
+		t.add(new Button("Test2"));
+		t.validate();
+		super.add(jsp,c);
+		
+		
+		jsp.validate();
+		jsp.repaint();
 		
 	}
 }
