@@ -27,6 +27,9 @@ public class Controller implements ActionListener
 				System.out.println("No name entered");
 			}
 			m.joinServer(v.getText());
+		}else if(event.equals("LEAVE"))
+		{
+			m.leaveServer();
 		}
 	}
 }

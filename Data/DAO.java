@@ -105,40 +105,65 @@ public class DAO
 //			semaphore.release();
 //		}
 	}
-	public void leave(String hostName)
+	public void leave(UserBean u)
 	{
-		ArrayList<UserBean> users;
+		System.out.println("Leaving.....");
 		try{
 			while(semaphore.tryAcquire() == false)
 			{
 				Thread.sleep(5);
 			}
-			users = this.deserialize();
-			UserBean toRemove = null;
-			if(users != null)
+			String hostName = u.getHostName();
+			for(int i = 0; i < users.size(); i++)
 			{
-				boolean canRemove = false;
-				for(UserBean b: users)
+				System.out.println(hostName);
+				if(users.get(i).getHostName().equals(hostName))
 				{
-					if(b.getHostName().equals(hostName))
-					{
-						canRemove = true;
-						toRemove = b;
-					}
+					System.out.println("Setting to null");
+					users.set(i, null);
+					break;
 				}
-				if(canRemove)
-				{
-					users.remove(toRemove);
-				}
-				this.serialize(users);
-				this.semaphore.release();
 			}
-		}catch (Exception e)
+			users.removeAll(Collections.singleton(null));
+			
+		}catch(Exception e)
 		{
-			System.out.println("Error Leaving");
-			this.semaphore.release();
-			System.exit(-3);
+			System.out.println("Error leaving");
 		}
+		
+		semaphore.release();
+//		ArrayList<UserBean> users;
+//		try{
+//			while(semaphore.tryAcquire() == false)
+//			{
+//				Thread.sleep(5);
+//			}
+//			users = this.deserialize();
+//			UserBean toRemove = null;
+//			if(users != null)
+//			{
+//				boolean canRemove = false;
+//				for(UserBean b: users)
+//				{
+//					if(b.getHostName().equals(hostName))
+//					{
+//						canRemove = true;
+//						toRemove = b;
+//					}
+//				}
+//				if(canRemove)
+//				{
+//					users.remove(toRemove);
+//				}
+//				this.serialize(users);
+//				this.semaphore.release();
+//			}
+//		}catch (Exception e)
+//		{
+//			System.out.println("Error Leaving");
+//			this.semaphore.release();
+//			System.exit(-3);
+//		}
 	}
 	/**
 	 * Deserializes and returns object

@@ -169,6 +169,7 @@ public class View extends JFrame
 		c.weighty = 0.05;
 		c.gridx = 2;
 		c.gridy = 3;
+		button.addActionListener(new Controller(this,m));
 		super.add(button, c);
 ///////Fifth row for errors
 		error = new JTextField();

@@ -45,6 +45,8 @@ public class Responder extends Thread
 				System.out.println("got join request");
 			}else if(message.equals("LEAVE"))
 			{
+				this.dataAccess.leave(m.getUser());
+				System.out.println("got leave request");
 				//remove from the list of users (Let clients know somehow?)
 				
 			}else if(message.equals("LIST"))

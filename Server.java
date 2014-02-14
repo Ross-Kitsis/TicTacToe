@@ -20,5 +20,6 @@ public class Server
 			capitalizedSentence = clientSentence.toUpperCase() + '\n';
 			outToClient.writeBytes(capitalizedSentence); 
 		 }
+		// welcomeSocket.close();
 	}
 }
