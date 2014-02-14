@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Data.DAO;
+
 public class DirectoryServerDriver
 {
 	
@@ -14,13 +16,14 @@ public class DirectoryServerDriver
 	public static void main(String args[]) throws IOException 
 	{
 		//Server Parameters
+		DAO d = new DAO();
 		try
 		{
 			ServerSocket mainSocket = new ServerSocket(socketNumber);
 			while(true)
 			{
 				Socket socket = mainSocket.accept();
-				Responder r = new Responder(socket);
+				Responder r = new Responder(socket,d);
 				r.start();
 			}
 		}catch(Exception e)

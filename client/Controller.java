@@ -16,13 +16,17 @@ public class Controller implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		String event = e.getActionCommand();
+		
+		System.out.println(event);
+		
 		if(event.equals("JOIN"))
 		{
-			System.out.println("Join pressed" + v.getText());
+			//System.out.println("Join pressed" + v.getText());
 			if(v.getText().length() == 0)
 			{
 				System.out.println("No name entered");
 			}
+			m.joinServer(v.getText());
 		}
 	}
 }
