@@ -2,8 +2,10 @@ package DirectoryServer;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 import Data.DAO;
+import Data.UserBean;
 
 import client.ServerMessage;
 
@@ -11,7 +13,7 @@ public class Responder extends Thread
 {
 	private Socket socket;
 	//private InputStreamReader input;
-	private DataOutputStream output;
+	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private DAO dataAccess;
 	
@@ -21,7 +23,8 @@ public class Responder extends Thread
 		try{
 			this.socket = socket;
 			//this.input = new InputStreamReader(socket.getInputStream());
-			this.output = new DataOutputStream(socket.getOutputStream()); 
+			//this.output = new DataOutputStream(socket.getOutputStream()); 
+			this.output = new ObjectOutputStream(socket.getOutputStream());
 			this.input = new ObjectInputStream(socket.getInputStream());
 		}catch(Exception e)
 		{
@@ -51,6 +54,9 @@ public class Responder extends Thread
 				
 			}else if(message.equals("LIST"))
 			{
+				System.out.println("Got list request");
+				ArrayList<UserBean> toSend = this.dataAccess.list();
+				output.writeObject(toSend);
 				//Send client a serialized list of all online players
 			}
 		} catch (ClassNotFoundException e1) {

@@ -2,6 +2,7 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 import Data.UserBean;
 
@@ -12,9 +13,11 @@ public class Model
 	
 	private String hostName;
 	private String userName;
+	private ArrayList<UserBean> onlineUsers;
 	
 	private final String JOIN = "JOIN";
 	private final String LEAVE = "LEAVE";
+	private final String LIST = "LIST";
 	
 	public Model()
 	{
@@ -54,25 +57,58 @@ public class Model
 	public void leaveServer()
 	{
 		try {
-				Socket toServer = new Socket("localhost", directorySocket);
-				ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
-				
-				ServerMessage m = new ServerMessage();
-				m.setCommand(LEAVE);
-				m.setUser(new UserBean(this.hostName,this.userName)); //Username could be null but shouldn't read it on server
-				
-				outToServer.writeObject(m);
-				
-				outToServer.close();
-				toServer.close();
-				
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+			Socket toServer = new Socket("localhost", directorySocket);
+			ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
+
+			ServerMessage m = new ServerMessage();
+			m.setCommand(LEAVE);
+			m.setUser(new UserBean(this.hostName,this.userName)); //Username could be null but shouldn't read it on server
+
+			outToServer.writeObject(m);
+			
+			
+			
+			outToServer.close();
+			toServer.close();
+
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<UserBean> listOnlineUsers()
+	{
+		try{
+			Socket toServer = new Socket("localhost",directorySocket);
+			ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
+			
+			ServerMessage m = new ServerMessage();
+			m.setCommand(LIST);
+			
+			outToServer.writeObject(m);
+			
+			ObjectInputStream serverInput = new ObjectInputStream(toServer.getInputStream());
+			onlineUsers = (ArrayList<UserBean>) serverInput.readObject();
+			//Need to receive output fom server
+			
+			outToServer.close();
+			serverInput.close();
+			toServer.close();
+			
+			
+		}catch(UnknownHostException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return onlineUsers;
 	}
 }

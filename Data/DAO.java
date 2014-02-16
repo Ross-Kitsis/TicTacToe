@@ -165,37 +165,20 @@ public class DAO
 //			System.exit(-3);
 //		}
 	}
-	/**
-	 * Deserializes and returns object
-	 * WILL ONLY BE CALLED BY 1 of JOIN, LEAVE or LIST which are protected by a semaphore. File will not be accessed concurrently
-	 * @return
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 */
-	private ArrayList<UserBean> deserialize() throws ClassNotFoundException, IOException
+	public ArrayList<UserBean> list()
 	{
-		ArrayList<UserBean> users = null;
-	
-		FileInputStream fis = new FileInputStream(fileName);
-		ObjectInputStream ois = new ObjectInputStream(fis);
-		users = (ArrayList<UserBean>) ois.readObject();
-		
-		return users;
-		
-	}
-	/**
-	 * Serializes the passed object
-	 * Protected by semaphores
-	 * @param allHosts
-	 * @throws IOException
-	 */
-	private void serialize(List<UserBean> allHosts) throws IOException
-	{
-		FileOutputStream out = new FileOutputStream(fileName);
-		ObjectOutputStream oos = new ObjectOutputStream(out);
-		oos.writeObject(allHosts);
-		oos.close();
-		out.close();
-		
+		ArrayList<UserBean> toReturn = new ArrayList<UserBean>();
+		try{
+		while(semaphore.tryAcquire())
+		{
+			Thread.sleep(5);
+		}
+			toReturn.addAll(users);
+		}catch(Exception e)
+		{
+			System.out.println("Error listing");
+		}
+		semaphore.release();
+		return toReturn;
 	}
 }

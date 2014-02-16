@@ -1,11 +1,16 @@
 package client;
 
 import java.awt.event.*;
+import java.util.*;
+
+import Data.UserBean;
 
 public class Controller implements ActionListener
 {
 	private View v;
 	private Model m;
+	
+	private ArrayList<UserBean> onlineUsers;
 	
 	public Controller(View v, Model m) 
 	{
@@ -30,6 +35,10 @@ public class Controller implements ActionListener
 		}else if(event.equals("LEAVE"))
 		{
 			m.leaveServer();
+		}else if(event.equals("LIST"))
+		{
+			onlineUsers = m.listOnlineUsers();
+			v.updateOnlineUsers(onlineUsers);
 		}
 	}
 }

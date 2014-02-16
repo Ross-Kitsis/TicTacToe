@@ -1,7 +1,11 @@
 package client;
 
 import java.awt.*;
+import java.util.*;
+
 import javax.swing.*;
+
+import Data.UserBean;
 
 /**
  * Handles all view related functionality for the TicTacTow game
@@ -33,6 +37,10 @@ public class View extends JFrame
 	private JButton board[][] = new JButton[3][3];
 	private JTextField f;
 	private JTextField error;
+	private JPanel scrollPanel;
+	private JScrollPane jsp;
+	
+	
 	//Model
 	public Model m;
 	
@@ -190,13 +198,9 @@ public class View extends JFrame
 		c.gridx = 3;
 		c.gridy = 0;
 		c.gridheight = 4;
-		JPanel t = new JPanel();
-		t.setLayout(new GridLayout(10,1));
-		JScrollPane jsp = new JScrollPane(t);
-		//jsp.setLayout(new GridLayout(1,10));
-		t.add(new Button("Test1"));
-		t.add(new Button("Test2"));
-		t.validate();
+		scrollPanel = new JPanel();
+		scrollPanel.setLayout(new GridLayout(10,1));
+		jsp = new JScrollPane(scrollPanel);
 		super.add(jsp,c);
 		
 		
@@ -212,12 +216,36 @@ public class View extends JFrame
 		c.gridy = 4;
 		c.gridheight = 1;
 		c.gridwidth = 1;
+		button.addActionListener(new Controller(this,m));
 		super.add(button,c);
-		
-		
 	}
 	public String getText()
 	{
 		return this.f.getText();
+	}
+	public void updateOnlineUsers(ArrayList<UserBean> onlineUsers)
+	{
+		JButton user;
+		if(onlineUsers == null)
+		{
+			//No users online, clear all buttons and users from the pane
+			scrollPanel.removeAll();
+		}else
+		{
+			scrollPanel.removeAll();
+			//Have users to add
+			for(UserBean b: onlineUsers)
+			{
+				user = new JButton("Invite: " + b.getUserName());
+				scrollPanel.add(user);
+				System.out.println("Adding " + b.getUserName());
+			}
+		}
+		
+		scrollPanel.validate();
+		
+		jsp.repaint();
+		scrollPanel.repaint();
+		super.repaint();
 	}
 }
