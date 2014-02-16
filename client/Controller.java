@@ -12,6 +12,8 @@ public class Controller implements ActionListener
 	
 	private ArrayList<UserBean> onlineUsers;
 	
+	private String server;
+	
 	public Controller(View v, Model m) 
 	{
 		this.v = v;
@@ -39,6 +41,12 @@ public class Controller implements ActionListener
 		{
 			onlineUsers = m.listOnlineUsers();
 			v.updateOnlineUsers(onlineUsers);
+		}else if(event.equals("CANCEL"))
+		{
+			System.exit(0);
+		}else if(event.equals("OKAY"))
+		{
+			//Need to create a method in model to verify server name is valid and server accepting connections
 		}
 	}
 }

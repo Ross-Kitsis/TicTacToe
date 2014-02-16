@@ -22,6 +22,8 @@ public class View extends JFrame
 	public static final String REFRESH = "REFRESH";
 	public static final String LEAVE = "LEAVE";
 	public static final String LIST = "LIST";
+	public static final String OKAY = "OKAY";
+	public static final String CANCEL = "CANCEL";
 	
 	//Game board buttoms
 	public static final String b00 = "00";
@@ -39,7 +41,8 @@ public class View extends JFrame
 	private JTextField error;
 	private JPanel scrollPanel;
 	private JScrollPane jsp;
-	
+	private JLabel ins;
+	private JTextField server;
 	
 	//Model
 	public Model m;
@@ -50,7 +53,8 @@ public class View extends JFrame
 		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		super.setLayout(new GridBagLayout());
 		this.m = m;
-		this.setResizable(false);
+		super.setResizable(false);
+		this.initialWindow();
 		this.setNewBoard();
 	}
 	public void setNewBoard()
@@ -247,5 +251,50 @@ public class View extends JFrame
 		jsp.repaint();
 		scrollPanel.repaint();
 		super.repaint();
+	}
+	public void initialWindow()
+	{
+		JFrame f = new JFrame();
+		f.setSize(400,100);
+		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		f.setLayout(new GridBagLayout());
+		f.setResizable(false);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		JButton button; 
+		
+		ins = new JLabel();
+		ins.setText("Enter the Directory server name or IP");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.weighty = 0.5;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		f.add(ins,c);
+		
+		server = new JTextField();
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		f.add(server,c);
+		
+		button = new JButton(OKAY);
+		c.gridx = 1;
+		c.weightx = 0.15;
+		button.addActionListener(new Controller(this,m));
+		f.add(button, c);
+		
+		button = new JButton(CANCEL);
+		c.gridx = 2;
+		button.addActionListener(new Controller(this,m));
+		f.add(button, c);
+		
+		f.setVisible(true);
+	}
+	public String getServerEntry()
+	{
+		return this.ins.getText();
 	}
 }
