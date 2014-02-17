@@ -32,7 +32,7 @@ public class Responder extends Thread
 		}
 	}
 	
-	public void run()
+	public void run() 
 	{
 		
 		ServerMessage m;
@@ -60,6 +60,7 @@ public class Responder extends Thread
 				//Send client a serialized list of all online players
 			}else if(message.equals("TEST"))
 			{
+				System.out.println("Got connection test msg");
 				output.writeObject("ACTIVE");
 			}
 		} catch (ClassNotFoundException e1) {
@@ -68,9 +69,7 @@ public class Responder extends Thread
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		//BufferedReader inFromClient = new BufferedReader(input);
- catch (InterruptedException e) {
+		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

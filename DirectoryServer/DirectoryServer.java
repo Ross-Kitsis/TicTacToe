@@ -10,7 +10,7 @@ public class DirectoryServer extends Thread
 	public DirectoryServer(int socketNumber) throws IOException
 	{
 		directorySocket = new ServerSocket(socketNumber);
-		directorySocket.close();
+		directorySocket.close(); 
 		System.out.println("Done");
 	}
 }

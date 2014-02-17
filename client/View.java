@@ -10,7 +10,7 @@ import Data.UserBean;
 /**
  * Handles all view related functionality for the TicTacTow game
  * @author rkitsis
- *
+ *  
  */
 
 
@@ -43,6 +43,7 @@ public class View extends JFrame
 	private JScrollPane jsp;
 	private JLabel ins;
 	private JTextField server;
+	private JFrame initial;
 	
 	//Model
 	public Model m;
@@ -54,17 +55,20 @@ public class View extends JFrame
 		super.setLayout(new GridBagLayout());
 		this.m = m;
 		super.setResizable(false);
+		super.setLocationRelativeTo(null);
 		this.initialWindow();
-		this.setNewBoard();
 	}
 	public void setNewBoard()
 	{
+		initial.setVisible(false);
+		initial.dispose();
+		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton button; 
 		ImageIcon x = new ImageIcon("x.jpg");
 
-///////First fow of tictactow
+///////First fow of tictactoe
 		button = new JButton(b00);
 
 		c.fill = GridBagConstraints.BOTH;
@@ -222,6 +226,8 @@ public class View extends JFrame
 		c.gridwidth = 1;
 		button.addActionListener(new Controller(this,m));
 		super.add(button,c);
+		
+		this.setVisible(true);
 	}
 	public String getText()
 	{
@@ -254,11 +260,12 @@ public class View extends JFrame
 	}
 	public void initialWindow()
 	{
-		JFrame f = new JFrame();
-		f.setSize(400,100);
-		f.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		f.setLayout(new GridBagLayout());
-		f.setResizable(false);
+		initial = new JFrame();
+		initial.setSize(400,100);
+		initial.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		initial.setLayout(new GridBagLayout());
+		initial.setResizable(false);
+		initial.setLocationRelativeTo(null);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		JButton button; 
@@ -271,30 +278,36 @@ public class View extends JFrame
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 3;
-		f.add(ins,c);
+		initial.add(ins,c);
 		
 		server = new JTextField();
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridy = 1;
 		c.gridwidth = 1;
-		f.add(server,c);
+		initial.add(server,c);
 		
 		button = new JButton(OKAY);
 		c.gridx = 1;
 		c.weightx = 0.15;
 		button.addActionListener(new Controller(this,m));
-		f.add(button, c);
+		initial.add(button, c);
 		
 		button = new JButton(CANCEL);
 		c.gridx = 2;
 		button.addActionListener(new Controller(this,m));
-		f.add(button, c);
+		initial.add(button, c);
 		
-		f.setVisible(true);
+		initial.setVisible(true);
 	}
 	public String getServerEntry()
 	{
 		return this.ins.getText();
+	}
+	public void setInvalidServerError()
+	{
+		System.out.println("Invalid server");
+		ins.setText("Unable to contact directory server. Try again.");
+		ins.setForeground(Color.RED);
 	}
 }

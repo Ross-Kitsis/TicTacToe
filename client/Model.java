@@ -127,9 +127,10 @@ public class Model
 				
 				ObjectInputStream serverInput = new ObjectInputStream(toServer.getInputStream());
 				String reply = (String) serverInput.readObject();
-				if(reply == "ACTIVE")
+				if(reply.equals("ACTIVE"))
 				{
 					validServer = true;
+					System.out.println("Server replied; valid server");
 				}
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
@@ -140,6 +141,7 @@ public class Model
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				 
 			}
 		}
 		return validServer;

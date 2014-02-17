@@ -6,6 +6,7 @@ public class Driver
 	{
 		View v = new View(new Model());
 		//Controller c = new Controller();
-		v.setVisible(true);
+		//v.setVisible(true);
+		 
 	}
 }
