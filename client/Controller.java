@@ -46,6 +46,13 @@ public class Controller implements ActionListener
 			System.exit(0);
 		}else if(event.equals("OKAY"))
 		{
+			if(m.setServer(v.getServerEntry()))
+			{
+				//Server replied and was valid, display the game board
+			}else
+			{
+				//Server entered was not valid, display an error message
+			}
 			//Need to create a method in model to verify server name is valid and server accepting connections
 		}
 	}

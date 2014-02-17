@@ -58,6 +58,9 @@ public class Responder extends Thread
 				ArrayList<UserBean> toSend = this.dataAccess.list();
 				output.writeObject(toSend);
 				//Send client a serialized list of all online players
+			}else if(message.equals("TEST"))
+			{
+				output.writeObject("ACTIVE");
 			}
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block

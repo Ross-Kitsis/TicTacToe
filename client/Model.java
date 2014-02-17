@@ -14,10 +14,12 @@ public class Model
 	private String hostName;
 	private String userName;
 	private ArrayList<UserBean> onlineUsers;
+	private String server;
 	
 	private final String JOIN = "JOIN";
 	private final String LEAVE = "LEAVE";
 	private final String LIST = "LIST";
+	private final String TEST = "TEST";
 	
 	public Model()
 	{
@@ -97,8 +99,6 @@ public class Model
 			outToServer.close();
 			serverInput.close();
 			toServer.close();
-			
-			
 		}catch(UnknownHostException e)
 		{
 			e.printStackTrace();
@@ -110,5 +110,38 @@ public class Model
 			e.printStackTrace();
 		}
 		return onlineUsers;
+	}
+	public boolean setServer(String server)
+	{
+		boolean validServer = false;
+		if(server.length() > 0)
+		{
+			Socket toServer;
+			try {
+				toServer = new Socket("localhost",directorySocket);
+				ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
+				ServerMessage m = new ServerMessage();
+				m.setCommand(TEST);
+				
+				outToServer.writeObject(m);
+				
+				ObjectInputStream serverInput = new ObjectInputStream(toServer.getInputStream());
+				String reply = (String) serverInput.readObject();
+				if(reply == "ACTIVE")
+				{
+					validServer = true;
+				}
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return validServer;
 	}
 }
