@@ -306,7 +306,7 @@ public class View extends JFrame
 	}
 	public String getServerEntry()
 	{
-		return this.ins.getText();
+		return this.server.getText();
 	}
 	public void setInvalidServerError()
 	{

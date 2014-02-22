@@ -125,7 +125,7 @@ public class Controller implements ActionListener, Runnable
 				ClientMessage c = (ClientMessage) controlInput.readObject();
 				System.out.println("Got client message with command: " + c.getCommand() );
 				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-				System.out.println("Running here");
+				//System.out.println("Running here");
 			 }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

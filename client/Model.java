@@ -19,6 +19,7 @@ public class Model
 	private String userName;
 	private ArrayList<UserBean> onlineUsers;
 	private String server;
+	private String ipAddress;
 	
 	private final String JOIN = "JOIN";
 	private final String LEAVE = "LEAVE";
@@ -41,6 +42,7 @@ public class Model
 		//this.v = v;
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
+			ipAddress = InetAddress.getLocalHost().getHostAddress();
 			//r = new Random(System.currentTimeMillis());
 			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
 			//control.start();
@@ -53,14 +55,14 @@ public class Model
 	public void joinServer(String userName)
 	{
 		try {
-			Socket toServer = new Socket("localhost", directorySocket);
+			Socket toServer = new Socket(server, directorySocket);
 			ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
 			
 			this.userName = userName;
 			
 			ServerMessage m = new ServerMessage();
 			m.setCommand(JOIN);
-			m.setUser(new UserBean(this.hostName, userName));
+			m.setUser(new UserBean(this.hostName, userName, ipAddress));
 			
 			outToServer.writeObject(m);
 
@@ -78,12 +80,12 @@ public class Model
 	public void leaveServer()
 	{
 		try {
-			Socket toServer = new Socket("localhost", directorySocket);
+			Socket toServer = new Socket(server, directorySocket);
 			ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
 
 			ServerMessage m = new ServerMessage();
 			m.setCommand(LEAVE);
-			m.setUser(new UserBean(this.hostName,this.userName)); //Username could be null but shouldn't read it on server
+			m.setUser(new UserBean(this.hostName,this.userName, ipAddress)); //Username could be null but shouldn't read it on server
 
 			outToServer.writeObject(m);
 			
@@ -103,7 +105,7 @@ public class Model
 	public ArrayList<UserBean> listOnlineUsers()
 	{
 		try{
-			Socket toServer = new Socket("localhost",directorySocket);
+			Socket toServer = new Socket(server,directorySocket);
 			ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
 			
 			ServerMessage m = new ServerMessage();
@@ -137,7 +139,9 @@ public class Model
 		{
 			Socket toServer;
 			try {
-				toServer = new Socket("localhost",directorySocket);
+				this.server = server;
+				System.out.println("Connecting to: " + server);
+				toServer = new Socket(server,directorySocket);
 				ObjectOutputStream outToServer = new ObjectOutputStream(toServer.getOutputStream());
 				ServerMessage m = new ServerMessage();
 				m.setCommand(TEST);
@@ -190,7 +194,7 @@ public class Model
 			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
 			ClientMessage c = new ClientMessage();
 			c.setCommand("INVITE");
-			c.setUser(new UserBean(this.hostName, this.userName));
+			c.setUser(new UserBean(this.hostName, this.userName, ipAddress));
 			this.piece = r.nextBoolean();
 			c.setPiece(piece);
 			
