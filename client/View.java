@@ -24,6 +24,8 @@ public class View extends JFrame
 	public static final String LIST = "LIST";
 	public static final String OKAY = "OKAY";
 	public static final String CANCEL = "CANCEL";
+	public static final String ACCEPT = "ACCEPT";
+	public static final String REJECT = "REJECT";
 	
 	//Game board buttoms
 	public static final String b00 = "00";
@@ -44,6 +46,9 @@ public class View extends JFrame
 	private JLabel ins;
 	private JTextField server;
 	private JFrame initial;
+	
+	private JFrame invite;
+	private JLabel inviteMessage;
 	
 	//Model
 	public Model m;
@@ -317,5 +322,41 @@ public class View extends JFrame
 	public void setModel(Model m)
 	{
 		this.m = m;
+	}
+	public void setInviteView(String userName)
+	{
+		invite = new JFrame();
+		invite.setSize(400,100);
+		invite.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		invite.setLayout(new GridBagLayout());
+		invite.setResizable(false);
+		invite.setLocationRelativeTo(null);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		JButton button; 
+		
+		this.inviteMessage = new JLabel();
+		inviteMessage.setText("Game invite from: " + userName );
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.weighty = 0.5;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		invite.add(ins,c);
+		
+		button = new JButton(ACCEPT);
+		c.gridy = 1;
+		c.gridx = 1;
+		c.weightx = 0.15;
+		button.addActionListener(control);
+		invite.add(button, c);
+		
+		button = new JButton(REJECT);
+		c.gridx = 2;
+		button.addActionListener(control);
+		invite.add(button, c);
+		
+		invite.setVisible(true);
 	}
 }

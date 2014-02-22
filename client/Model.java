@@ -169,7 +169,7 @@ public class Model
 		}
 		return validServer;
 	}
-	public boolean sendInvite(String userName)
+	public void sendInvite(String userName)
 	{
 		boolean response = false;
 		String user = userName.split(": ")[1];
@@ -201,28 +201,29 @@ public class Model
 			
 			toPeer.writeObject(c);
 			
-			ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
-			ClientMessage r = (ClientMessage) fromPeer.readObject();
+			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
+			//ClientMessage r = (ClientMessage) fromPeer.readObject();
 			
-			if(r.isAccept())
-			{
-				//Remote user accepted the game
-				response = true;
-			}
-			
+//			if(r.isAccept())
+//			{
+//				//Remote user accepted the game
+//				response = true;
+//			}
+//			
 			controlSocket.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
+//		catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
-		return response;
+//		return response;
 	}
 	public void setView(View v)
 	{
