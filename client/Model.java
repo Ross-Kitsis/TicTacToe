@@ -3,11 +3,15 @@ package client;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Data.UserBean;
+import DirectoryServer.Responder;
 
-public class Model 
+public class Model
 {
+	private View v;
+	
 	private int board[][] = new int[3][3];
 	final private static int directorySocket = 25200;
 	
@@ -21,10 +25,25 @@ public class Model
 	private final String LIST = "LIST";
 	private final String TEST = "TEST";
 	
+	private ServerSocket gameData;
+	private ServerSocket controlData;
+	private static final int gameDataSocketNumber = 25201;
+	private static final int controlDataSocketNumber = 25202;
+	
+	private boolean piece;
+	Random r;
+	
+	private static final int controlServerType = 0;
+	private static final int gameDataServerType = 1;
+	
 	public Model()
 	{
+		//this.v = v;
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
+			//r = new Random(System.currentTimeMillis());
+			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
+			//control.start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,5 +164,64 @@ public class Model
 			}
 		}
 		return validServer;
+	}
+	public boolean sendInvite(String userName)
+	{
+		boolean response = false;
+		String user = userName.split(": ")[1];
+		UserBean receiver = null;
+		
+		for(UserBean u: this.onlineUsers)
+		{
+			if(u.getUserName().equals(user))
+			{
+				receiver = u;
+				System.out.println(user);
+				break;
+			}
+		}
+		
+		
+		
+		
+		Socket controlSocket;
+		try {
+			controlSocket = new Socket(receiver.getHostName(), Model.controlDataSocketNumber);
+			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
+			ClientMessage c = new ClientMessage();
+			c.setCommand("INVITE");
+			c.setUser(new UserBean(this.hostName, this.userName));
+			this.piece = r.nextBoolean();
+			c.setPiece(piece);
+			
+			
+			toPeer.writeObject(c);
+			
+			ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
+			ClientMessage r = (ClientMessage) fromPeer.readObject();
+			
+			if(r.isAccept())
+			{
+				//Remote user accepted the game
+				response = true;
+			}
+			
+			controlSocket.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return response;
+	}
+	public void setView(View v)
+	{
+		this.v = v;
 	}
 }

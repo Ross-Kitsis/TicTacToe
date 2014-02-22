@@ -48,6 +48,8 @@ public class View extends JFrame
 	//Model
 	public Model m;
 	
+	private Controller control;
+	
 	public View(Model m)
 	{
 		super.setSize(800,800);
@@ -56,6 +58,7 @@ public class View extends JFrame
 		this.m = m;
 		super.setResizable(false);
 		super.setLocationRelativeTo(null);
+		control = new Controller(this,m);
 		this.initialWindow();
 	}
 	public void setNewBoard()
@@ -176,7 +179,7 @@ public class View extends JFrame
 		c.weighty = 0.05;
 		c.gridx = 1;
 		c.gridy = 3;
-		button.addActionListener(new Controller(this,m));
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(LEAVE);
@@ -185,7 +188,7 @@ public class View extends JFrame
 		c.weighty = 0.05;
 		c.gridx = 2;
 		c.gridy = 3;
-		button.addActionListener(new Controller(this,m));
+		button.addActionListener(control);
 		super.add(button, c);
 ///////Fifth row for errors
 		error = new JTextField();
@@ -224,7 +227,7 @@ public class View extends JFrame
 		c.gridy = 4;
 		c.gridheight = 1;
 		c.gridwidth = 1;
-		button.addActionListener(new Controller(this,m));
+		button.addActionListener(control);
 		super.add(button,c);
 		
 		this.setVisible(true);
@@ -247,6 +250,7 @@ public class View extends JFrame
 			for(UserBean b: onlineUsers)
 			{
 				user = new JButton("Invite: " + b.getUserName());
+				user.addActionListener(control);
 				scrollPanel.add(user);
 				System.out.println("Adding " + b.getUserName());
 			}
@@ -290,12 +294,12 @@ public class View extends JFrame
 		button = new JButton(OKAY);
 		c.gridx = 1;
 		c.weightx = 0.15;
-		button.addActionListener(new Controller(this,m));
+		button.addActionListener(control);
 		initial.add(button, c);
 		
 		button = new JButton(CANCEL);
 		c.gridx = 2;
-		button.addActionListener(new Controller(this,m));
+		button.addActionListener(control);
 		initial.add(button, c);
 		
 		initial.setVisible(true);
@@ -309,5 +313,9 @@ public class View extends JFrame
 		System.out.println("Invalid server");
 		ins.setText("Unable to contact directory server. Try again.");
 		ins.setForeground(Color.RED);
+	}
+	public void setModel(Model m)
+	{
+		this.m = m;
 	}
 }
