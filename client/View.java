@@ -53,7 +53,7 @@ public class View extends JFrame
 	public View(Model m)
 	{
 		super.setSize(800,800);
-		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		super.setLayout(new GridBagLayout());
 		this.m = m;
 		super.setResizable(false);

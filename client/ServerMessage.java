@@ -6,6 +6,10 @@ import Data.UserBean;
 
 public class ServerMessage implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private UserBean user;
 	private String command;
 	public ServerMessage()

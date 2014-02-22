@@ -43,7 +43,7 @@ public class Model
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
 			ipAddress = InetAddress.getLocalHost().getHostAddress();
-			//r = new Random(System.currentTimeMillis());
+			r = new Random(System.currentTimeMillis());
 			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
 			//control.start();
 		} catch (UnknownHostException e) {
@@ -190,7 +190,7 @@ public class Model
 		
 		Socket controlSocket;
 		try {
-			controlSocket = new Socket(receiver.getHostName(), Model.controlDataSocketNumber);
+			controlSocket = new Socket(receiver.getIpAddress(), Model.controlDataSocketNumber);
 			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
 			ClientMessage c = new ClientMessage();
 			c.setCommand("INVITE");
