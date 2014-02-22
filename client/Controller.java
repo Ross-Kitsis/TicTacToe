@@ -35,17 +35,20 @@ public class Controller implements ActionListener, Runnable
 	{
 		this.v = v;
 		this.m = m;
+		
 		Thread control = new Thread(this);
-		control.run();
+		control.start();
+		/*
 		while(serverType == 0)
 		{
 			try {
+				System.out.println("Sleeping");
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -96,6 +99,7 @@ public class Controller implements ActionListener, Runnable
 		if(serverType == 0)
 		{
 			//Control message server	
+			System.out.println("Running control server");
 			runControlServer();
 		}else if(serverType == 1)
 		{
@@ -115,11 +119,13 @@ public class Controller implements ActionListener, Runnable
 			this.changeServerType();
 			 while(true) 
 			 {
+				 System.out.println("Here");
 				controlSocket = controlServerSocket.accept();
 				controlInput = new ObjectInputStream(controlSocket.getInputStream());
 				ClientMessage c = (ClientMessage) controlInput.readObject();
 				System.out.println("Got client message with command: " + c.getCommand() );
 				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+				System.out.println("Running here");
 			 }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
