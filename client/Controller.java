@@ -1,6 +1,8 @@
 package client;
 
 import java.awt.event.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
 import Data.UserBean;
@@ -15,6 +17,19 @@ public class Controller implements ActionListener, Runnable
 	private String server;
 	
 	private int serverType = 0;
+	
+	private ServerSocket controlServerSocket = null;
+	private Socket controlSocket = null;
+	private ObjectInputStream controlInput = null;
+	private ObjectOutputStream controlOutput = null;
+	
+	private ServerSocket gameDataServerSocket = null;
+	private Socket gameDataSocket = null;
+	private ObjectInputStream gameInput = null;
+	private ObjectOutputStream gameOutput = null;
+	
+	private static final int gameDataSocketNumber = 25201;
+	private static final int controlDataSocketNumber = 25202;
 	
 	public Controller(View v, Model m) 
 	{
@@ -81,11 +96,42 @@ public class Controller implements ActionListener, Runnable
 		if(serverType == 0)
 		{
 			//Control message server	
+			runControlServer();
+		}else if(serverType == 1)
+		{
+			
 		}
 	}
 	
 	private synchronized void changeServerType()
 	{
 		this.serverType++;
+	}
+	
+	public void runControlServer()
+	{
+		try {
+			controlServerSocket= new ServerSocket(controlDataSocketNumber);
+			this.changeServerType();
+			 while(true) 
+			 {
+				controlSocket = controlServerSocket.accept();
+				controlInput = new ObjectInputStream(controlSocket.getInputStream());
+				ClientMessage c = (ClientMessage) controlInput.readObject();
+				System.out.println("Got client message with command: " + c.getCommand() );
+				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+			 }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not start open P2P control socket on port 25201, exiting...");
+			System.exit(-3);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+
+			 
 	}
 }
