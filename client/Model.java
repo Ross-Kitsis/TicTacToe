@@ -3,6 +3,7 @@ package client;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Random;
 
 import Data.UserBean;
@@ -47,6 +48,7 @@ public class Model
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
 			ipAddress = InetAddress.getByName(hostName).getHostAddress();
+			this.getIPAddress();
 			
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
@@ -57,6 +59,10 @@ public class Model
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not get hostname");
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Could not get IP");
 		}
 	}
 	public void joinServer(String userName)
@@ -260,5 +266,25 @@ public class Model
 	{
 		this.haveGame = true;
 		System.out.println("Starting game");
+	}
+	public String getIPAddress() throws SocketException
+	{
+		Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+		while(en.hasMoreElements())
+		{
+			NetworkInterface i = en.nextElement();
+			Enumeration<InetAddress> addresses = i.getInetAddresses();
+			while(addresses.hasMoreElements())
+			{
+				InetAddress ad = addresses.nextElement();
+				if(!ad.isLoopbackAddress() && ad instanceof Inet4Address)
+				{
+					System.out.println(ad.getHostAddress());
+					return ad.getHostAddress();
+				}
+			}
+		}
+		return null;
+		
 	}
 }
