@@ -47,8 +47,8 @@ public class Model
 		//this.v = v;
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
-			ipAddress = InetAddress.getByName(hostName).getHostAddress();
-			this.getIPAddress();
+			//ipAddress = InetAddress.getByName(hostName).getHostAddress();
+			ipAddress = this.getIPAddress();
 			
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
