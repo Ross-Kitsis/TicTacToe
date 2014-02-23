@@ -31,6 +31,9 @@ public class Controller implements ActionListener, Runnable
 	private static final int gameDataSocketNumber = 25201;
 	private static final int controlDataSocketNumber = 25202;
 	
+	private UserBean possibleOpponent;
+	private boolean possiblePiece;
+	
 	public Controller(View v, Model m) 
 	{
 		this.v = v;
@@ -96,6 +99,9 @@ public class Controller implements ActionListener, Runnable
 			//Start a new game with a users
 			System.out.println("Invite accepted, need to send remote user accept");
 			v.closeInvite();
+			m.acceptInvite(possibleOpponent, possiblePiece);
+			v.setNewBoard();
+			
 		}else if(event.equals("REJECT"))
 		{
 			//Reject user request for game
@@ -134,7 +140,22 @@ public class Controller implements ActionListener, Runnable
 				controlInput = new ObjectInputStream(controlSocket.getInputStream());
 				ClientMessage c = (ClientMessage) controlInput.readObject();
 				System.out.println("Got client message with command: " + c.getCommand() );
-				v.setInviteView(c.getUser().getUserName());
+				if(c.getCommand().equals("INVITE"))
+				{
+					this.possibleOpponent = c.getUser();
+					this.possiblePiece = !c.isPiece();
+					v.setInviteView(c.getUser().getUserName());
+				}else if(c.getCommand().equals("ACCEPT"))
+				{
+					//Accept invite request
+					m.setHaveGame();
+					v.setNewBoard();
+					
+				}else if(c.getCommand().equals("REJECT"))
+				{
+					//Rejected invite
+				}
+				
 				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 				//System.out.println("Running here");
 			 }

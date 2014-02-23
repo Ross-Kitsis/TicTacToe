@@ -37,6 +37,10 @@ public class Model
 	private static final int controlServerType = 0;
 	private static final int gameDataServerType = 1;
 	
+	private boolean sentInvite = false;
+	private UserBean opponent;
+	private boolean haveGame = false;
+	
 	public Model()
 	{
 		//this.v = v;
@@ -171,7 +175,6 @@ public class Model
 	}
 	public void sendInvite(String userName)
 	{
-		boolean response = false;
 		String user = userName.split(": ")[1];
 		UserBean receiver = null;
 		
@@ -186,30 +189,24 @@ public class Model
 		}
 		
 		
-		
-		
 		Socket controlSocket;
 		try {
 			controlSocket = new Socket(receiver.getIpAddress(), Model.controlDataSocketNumber);
 			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
 			ClientMessage c = new ClientMessage();
 			c.setCommand("INVITE");
-			c.setUser(new UserBean(this.hostName, this.userName, ipAddress));
+			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
 			this.piece = r.nextBoolean();
 			c.setPiece(piece);
 			
+			this.sentInvite = true;
+			this.opponent = receiver;
 			
 			toPeer.writeObject(c);
 			
 			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
 			//ClientMessage r = (ClientMessage) fromPeer.readObject();
-			
-//			if(r.isAccept())
-//			{
-//				//Remote user accepted the game
-//				response = true;
-//			}
-//			
+
 			controlSocket.close();
 			
 		} catch (IOException e) {
@@ -225,8 +222,39 @@ public class Model
 		
 //		return response;
 	}
-	public void setView(View v)
+	public void acceptInvite(UserBean possibleOpponent, boolean possiblePiece)
 	{
-		this.v = v;
+		this.opponent = possibleOpponent;
+		this.piece = possiblePiece;
+		Socket controlSocket;
+		try {
+			controlSocket = new Socket(opponent.getIpAddress(), Model.controlDataSocketNumber);
+			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
+			ClientMessage c = new ClientMessage();
+			c.setCommand("ACCEPT");
+			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
+			//this.piece = r.nextBoolean();
+			//c.setPiece(piece);
+			System.out.println("Accepting invite");
+			
+			toPeer.writeObject(c);
+			
+			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
+			//ClientMessage r = (ClientMessage) fromPeer.readObject();
+
+			controlSocket.close();
+			this.haveGame = true;
+			System.out.println("Starting game");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} 
+	}
+	public void setHaveGame()
+	{
+		this.haveGame = true;
+		System.out.println("Starting game");
 	}
 }

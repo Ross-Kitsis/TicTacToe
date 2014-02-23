@@ -8,6 +8,5 @@ public class Driver
 		//v.setModel(new Model(v));
 		//Controller c = new Controller();
 		//v.setVisible(true);
-		 
 	}
 }
