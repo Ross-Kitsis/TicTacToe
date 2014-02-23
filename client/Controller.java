@@ -91,6 +91,16 @@ public class Controller implements ActionListener, Runnable
 		}else if(event.contains("Invite:"))
 		{
 			m.sendInvite(event);
+		}else if(event.equals("ACCEPT"))
+		{
+			//Start a new game with a users
+			System.out.println("Invite accepted, need to send remote user accept");
+			v.closeInvite();
+		}else if(event.equals("REJECT"))
+		{
+			//Reject user request for game
+			System.out.println("Invite rejected, need to send remote user reject");
+			v.closeInvite();
 		}
 	}
 	@Override

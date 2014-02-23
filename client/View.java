@@ -359,4 +359,9 @@ public class View extends JFrame
 		
 		invite.setVisible(true);
 	}
+	public void closeInvite()
+	{
+		invite.setVisible(false);
+		invite.dispose();
+	}
 }
