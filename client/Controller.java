@@ -150,7 +150,7 @@ public class Controller implements ActionListener, Runnable
 					//Accept invite request
 					m.setHaveGame();
 					v.setNewBoard();
-					
+					System.out.println("Got accept back");
 				}else if(c.getCommand().equals("REJECT"))
 				{
 					//Rejected invite
