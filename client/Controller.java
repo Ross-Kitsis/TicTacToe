@@ -124,6 +124,7 @@ public class Controller implements ActionListener, Runnable
 				controlInput = new ObjectInputStream(controlSocket.getInputStream());
 				ClientMessage c = (ClientMessage) controlInput.readObject();
 				System.out.println("Got client message with command: " + c.getCommand() );
+				v.setInviteView(c.getUser().getUserName());
 				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 				//System.out.println("Running here");
 			 }
