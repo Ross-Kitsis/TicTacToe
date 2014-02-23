@@ -47,6 +47,9 @@ public class Model
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
 			ipAddress = InetAddress.getLocalHost().getHostAddress();
+			
+			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
+			
 			r = new Random(System.currentTimeMillis());
 			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
 			//control.start();
@@ -191,6 +194,7 @@ public class Model
 		
 		Socket controlSocket;
 		try {
+			System.out.println("Setting up connection to: " + receiver.getIpAddress());
 			controlSocket = new Socket(receiver.getIpAddress(), Model.controlDataSocketNumber);
 			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
 			ClientMessage c = new ClientMessage();
