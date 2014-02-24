@@ -304,7 +304,7 @@ public class Model
 	public boolean makeMove(int row, int col)
 	{
 		boolean canMove = false;
-		if(this.haveGame)
+		if(this.haveGame && isTurn)
 		{
 			if(board[row][col] == 0)
 			{
