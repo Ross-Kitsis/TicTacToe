@@ -378,14 +378,38 @@ public class View extends JFrame
 	}
 	public void setPieceIcon(int row, int col, int piece)
 	{
+		System.out.println("changing icon");
 		JButton toChange = board[row][col];
 		if(piece == -1)
 		{
+			toChange.setText("");
 			toChange.setIcon(x);
-			super.repaint();
+			toChange.invalidate();
+			super.invalidate();
+			//super.repaint();
 		}else
 		{
-			
+			//toChange.setText("");
+			toChange.setText("");
+			toChange.setIcon(o);
+			toChange.invalidate();
+			super.invalidate();
+			//toChange.validate();
+			//super.repaint();
+		}
+		super.validate();
+		super.repaint();
+	}
+	public void resetGameBoard()
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			for(int j = 0; j < 3; j++)
+			{
+				JButton toChange = this.board[i][j];
+				toChange.setIcon(null);
+				toChange.setText(i + "" + j);
+			}
 		}
 	}
 }

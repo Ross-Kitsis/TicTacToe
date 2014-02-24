@@ -58,7 +58,7 @@ public class Controller implements ActionListener, Runnable
 	{
 		String event = e.getActionCommand();
 		
-		System.out.println(event);
+		System.out.println("Event is: " + event);
 		
 		if(event.equals("JOIN"))
 		{
@@ -100,14 +100,14 @@ public class Controller implements ActionListener, Runnable
 			System.out.println("Invite accepted, need to send remote user accept");
 			v.closeInvite();
 			m.acceptInvite(possibleOpponent, possiblePiece);
-			v.setNewBoard();
+			v.resetGameBoard();
 			
 		}else if(event.equals("REJECT"))
 		{
 			//Reject user request for game
 			System.out.println("Invite rejected, need to send remote user reject");
 			v.closeInvite();
-		}else if(event.equals("b00"))
+		}else if(event.equals("00"))
 		{
 			//button at 0,0 presses
 			int piece = m.getPiece();
@@ -154,7 +154,7 @@ public class Controller implements ActionListener, Runnable
 				{
 					//Accept invite request
 					m.setHaveGame();
-					v.setNewBoard();
+					v.resetGameBoard();
 					System.out.println("Got accept back");
 				}else if(c.getCommand().equals("REJECT"))
 				{
