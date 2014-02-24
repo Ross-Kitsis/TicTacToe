@@ -122,6 +122,36 @@ public class Controller implements ActionListener, Runnable
 			m.makeMove(0, 1);
 			int p = m.getPiece();
 			v.setPieceIcon(0, 1, p);
+		}else if(event.equals("02"))
+		{
+			m.makeMove(0, 2);
+			int p = m.getPiece();
+			v.setPieceIcon(0, 2, p);
+		}else if(event.equals("10"))
+		{
+			m.makeMove(1, 0);
+			int p = m.getPiece();
+			v.setPieceIcon(1, 0, p);
+		}else if(event.equals("11"))
+		{
+			m.makeMove(1, 1);
+			int p = m.getPiece();
+			v.setPieceIcon(1, 1, p);
+		}else if(event.equals("20"))
+		{
+			m.makeMove(2, 0);
+			int p = m.getPiece();
+			v.setPieceIcon(2, 0, p);
+		}else if(event.equals("21"))
+		{
+			m.makeMove(2, 1);
+			int p = m.getPiece();
+			v.setPieceIcon(2, 1, p);
+		}else if(event.equals("22"))
+		{
+			m.makeMove(2, 2);
+			int p = m.getPiece();
+			v.setPieceIcon(2, 2, p);
 		}
 	}
 	@Override
