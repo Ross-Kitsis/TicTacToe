@@ -466,15 +466,15 @@ public class View extends JFrame
 		gameStarted.add(startMessage);
 		
 		gameStarted.setVisible(true);
-		
+		/*
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		gameStarted.setVisible(false);
-		gameStarted.dispose();
+		}*/
+		//gameStarted.setVisible(false);
+		//gameStarted.dispose();
 	}
 	public void setGameRejectedMessage()
 	{		
@@ -494,12 +494,16 @@ public class View extends JFrame
 		System.out.println("Setting win message");
 		win.setVisible(true);
 		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		win.setVisible(false);
+	}
+	public void closeWinWindow()
+	{
 		win.setVisible(false);
 	}
 	public void setLoseMessage()
@@ -508,12 +512,16 @@ public class View extends JFrame
 
 		lose.setVisible(true);
 		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		lose.setVisible(false);
+	}
+	public void closeLoseWindow()
+	{
 		lose.setVisible(false);
 	}
 }

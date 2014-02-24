@@ -121,13 +121,18 @@ public class Controller implements ActionListener, Runnable
 			if(win == -1)
 			{
 				m.endGame();
-				m.endGame();
 				v.setLoseMessage();
 			}else if(win == 1)
 			{
 				m.endGame();
-				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("01"))
 		{
@@ -139,10 +144,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("02"))
 		{
@@ -154,10 +173,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("10"))
 		{
@@ -169,10 +202,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("11"))
 		{
@@ -184,10 +231,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("12"))
 		{
@@ -199,10 +260,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("20"))
 		{
@@ -214,10 +289,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("21"))
 		{
@@ -229,10 +318,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}else if(event.equals("22"))
 		{
@@ -244,10 +347,24 @@ public class Controller implements ActionListener, Runnable
 			{
 				m.endGame();
 				v.setLoseMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeLoseWindow();
 			}else if(win == 1)
 			{
 				m.endGame();
 				v.setWinMessage();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				v.closeWinWindow();
 			}
 		}
 	}
@@ -340,10 +457,24 @@ public class Controller implements ActionListener, Runnable
 					{
 						m.endGame();
 						v.setLoseMessage();
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						v.closeLoseWindow();
 					}else if(win == 1)
 					{
 						m.endGame();
 						v.setWinMessage();
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						v.closeWinWindow();
 					}
 				}
 			}
