@@ -303,7 +303,7 @@ public class Model
 				Socket controlSocket;
 				try {
 					System.out.println("Setting up connection to: " + opponent.getIpAddress());
-					controlSocket = new Socket(opponent.getIpAddress(), Model.controlDataSocketNumber);
+					controlSocket = new Socket(opponent.getIpAddress(), Model.gameDataSocketNumber);
 					ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
 					ClientMessage c = new ClientMessage();
 					c.setCommand("MOVE");
