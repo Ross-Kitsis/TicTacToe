@@ -491,7 +491,7 @@ public class View extends JFrame
 	public void setWinMessage()
 	{
 
-		
+		System.out.println("Setting win message");
 		win.setVisible(true);
 		
 		try {
@@ -504,6 +504,8 @@ public class View extends JFrame
 	}
 	public void setLoseMessage()
 	{
+		System.out.println("Setting lose message");
+
 		lose.setVisible(true);
 		
 		try {

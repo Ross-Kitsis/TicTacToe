@@ -382,6 +382,7 @@ public class Model
 	{
 		int win = 0;
 		
+		//Horizontal
 		for(int i = 0; i < 3; i++)
 		{
 			int total = 0;
@@ -402,6 +403,28 @@ public class Model
 			}
 		}
 		
+		//Vertical
+		for(int i = 0; i < 3; i++)
+		{
+			int total = 0;
+			
+			for(int j = 0; j < 3; j++)
+			{
+				total += board[j][i];
+			}
+			
+			if(total == (this.piece * 3))
+			{
+				//Win
+				win = 1;
+			}else if(total == (this.piece * -3))
+			{
+				//lose
+				win = -1;
+			}
+		}
+		
+		//Diagonal
 		int rightDiag =  board[0][0] + board[1][1] + board[2][2];
 		int leftDiag =  board[0][2] + board[1][1] + board[2][0];
 		
