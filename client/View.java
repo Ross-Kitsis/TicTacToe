@@ -493,8 +493,8 @@ public class View extends JFrame
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		gameRejected.setVisible(false);
-		gameRejected.dispose();
+		win.setVisible(false);
+		win.dispose();
 	}
 	public void setLoseMessage()
 	{
