@@ -338,9 +338,11 @@ public class Controller implements ActionListener, Runnable
 					int win = m.haveWinCondition();
 					if(win == -1)
 					{
+						m.endGame();
 						v.setLoseMessage();
 					}else if(win == 1)
 					{
+						m.endGame();
 						v.setWinMessage();
 					}
 				}
