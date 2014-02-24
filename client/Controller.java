@@ -25,6 +25,7 @@ public class Controller implements ActionListener, Runnable
 	
 	private ServerSocket gameDataServerSocket = null;
 	private Socket gameDataSocket = null;
+	
 	private ObjectInputStream gameInput = null;
 	private ObjectOutputStream gameOutput = null;
 	
@@ -41,7 +42,7 @@ public class Controller implements ActionListener, Runnable
 		
 		Thread control = new Thread(this);
 		control.start();
-		/*
+		
 		while(serverType == 0)
 		{
 			try {
@@ -51,7 +52,10 @@ public class Controller implements ActionListener, Runnable
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
+		
+		Thread gameData = new Thread(this);
+		gameData.start();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -124,7 +128,8 @@ public class Controller implements ActionListener, Runnable
 			runControlServer();
 		}else if(serverType == 1)
 		{
-			
+			System.out.println("Running game data server");
+			this.runGameDataServer();
 		}
 	}
 	
@@ -160,9 +165,6 @@ public class Controller implements ActionListener, Runnable
 				{
 					//Rejected invite
 				}
-				
-				//BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-				//System.out.println("Running here");
 			 }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -172,9 +174,33 @@ public class Controller implements ActionListener, Runnable
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}		 
+	}
+	public void runGameDataServer()
+	{
+		try {
+			
+			gameDataServerSocket = new ServerSocket(gameDataSocketNumber);
+			while(true)
+			{
+				System.out.println("Game data server");
+				gameDataSocket = gameDataServerSocket.accept();
+				gameInput = new ObjectInputStream(gameDataSocket.getInputStream());
+				ClientMessage c = (ClientMessage) gameInput.readObject();
+				System.out.println("Got game data message with command" + c.getCommand());
+				if(c.getCommand().equals("MOVE"))
+				{
+					m.setOpBoardMove(c.getRow(), c.getColumn(),c.getPiece());
+					v.setPieceIcon(c.getRow(), c.getColumn(), c.getPiece());
+				}
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		 
-
-			 
 	}
 }

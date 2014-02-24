@@ -355,7 +355,7 @@ public class View extends JFrame
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		invite.add(ins,c);
+		invite.add(inviteMessage,c);
 		
 		button = new JButton(ACCEPT);
 		c.gridy = 1;

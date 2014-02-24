@@ -295,6 +295,32 @@ public class Model
 			if(board[row][col] == 0)
 			{
 				canMove = true;
+				board[row][col] = piece;
+				
+				
+				///Send move
+				
+				Socket controlSocket;
+				try {
+					System.out.println("Setting up connection to: " + opponent.getIpAddress());
+					controlSocket = new Socket(opponent.getIpAddress(), Model.controlDataSocketNumber);
+					ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
+					ClientMessage c = new ClientMessage();
+					c.setCommand("MOVE");
+					c.setRow(row);
+					c.setColumn(col);
+					c.setPiece(this.piece);
+					c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
+					
+					toPeer.writeObject(c);
+
+					controlSocket.close();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				} 
 			}
 		}	
 		return canMove;
@@ -315,5 +341,9 @@ public class Model
 		}
 		System.out.println(toReturn);
 		return toReturn;
+	}
+	public void setOpBoardMove(int row, int col, int oppiece)
+	{
+		board[row][col] = oppiece;
 	}
 }
