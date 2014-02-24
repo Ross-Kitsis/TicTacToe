@@ -1,9 +1,12 @@
 package client;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 import Data.UserBean;
 
@@ -14,7 +17,7 @@ import Data.UserBean;
  */
 
 
-public class View extends JFrame
+public class View extends JFrame implements ActionListener
 {
 	//Button variables
 	public static final long serialVersionUID = 1L;
@@ -493,7 +496,8 @@ public class View extends JFrame
 
 		System.out.println("Setting win message");
 		win.setVisible(true);
-		
+		Timer t = new Timer(2000,this);
+		t.start();
 //		try {
 //			Thread.sleep(2000);
 //		} catch (InterruptedException e) {
@@ -511,6 +515,8 @@ public class View extends JFrame
 		System.out.println("Setting lose message");
 
 		lose.setVisible(true);
+		Timer t = new Timer(2000,this);
+		t.start();
 		
 //		try {
 //			Thread.sleep(2000);
@@ -523,5 +529,10 @@ public class View extends JFrame
 	public void closeLoseWindow()
 	{
 		lose.setVisible(false);
+	}
+	public void actionPerformed(ActionEvent e) 
+	{
+		closeLoseWindow();
+		closeWinWindow();
 	}
 }
