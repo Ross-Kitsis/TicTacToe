@@ -350,6 +350,7 @@ public class Controller implements ActionListener, Runnable
 				System.out.println("Got game data message with command" + c.getCommand());
 				if(c.getCommand().equals("MOVE"))
 				{
+					m.setIsTurn();
 					m.setOpBoardMove(c.getRow(), c.getColumn(),c.getPiece());
 					v.setPieceIcon(c.getRow(), c.getColumn(), c.getPiece());
 					int win = m.haveWinCondition();
