@@ -79,6 +79,34 @@ public class View extends JFrame
 		super.setResizable(false);
 		super.setLocationRelativeTo(null);
 		control = new Controller(this,m);
+		
+		this.lose = new JFrame();
+		lose.setSize(400,100);
+		lose.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		lose.setResizable(false);
+		lose.setLocationRelativeTo(null);
+		this.loseMessage = new JLabel();
+		loseMessage.setText("You lose, ending game...");
+		lose.add(loseMessage);
+		
+		this.win = new JFrame();
+		win.setSize(400,100);
+		win.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		win.setResizable(false);
+		win.setLocationRelativeTo(null);
+		this.winMessage = new JLabel();
+		winMessage.setText("You win, ending game...");
+		win.add(winMessage);
+		
+		this.gameRejected = new JFrame();
+		gameRejected.setSize(400,100);
+		gameRejected.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		gameRejected.setResizable(false);
+		gameRejected.setLocationRelativeTo(null);
+		this.rejectedMessage = new JLabel();
+		rejectedMessage.setText("Invite rejected");
+		gameRejected.add(rejectedMessage);
+		
 		this.initialWindow();
 	}
 	public void setNewBoard()
@@ -449,18 +477,7 @@ public class View extends JFrame
 		gameStarted.dispose();
 	}
 	public void setGameRejectedMessage()
-	{
-		this.gameRejected = new JFrame();
-		gameRejected.setSize(400,100);
-		gameRejected.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		gameRejected.setResizable(false);
-		gameRejected.setLocationRelativeTo(null);
-		
-		this.rejectedMessage = new JLabel();
-		rejectedMessage.setText("Invite rejected");
-		
-		gameRejected.add(rejectedMessage);
-		
+	{		
 		gameRejected.setVisible(true);
 		
 		try {
@@ -470,20 +487,10 @@ public class View extends JFrame
 			e.printStackTrace();
 		}
 		gameRejected.setVisible(false);
-		gameRejected.dispose();
 	}
 	public void setWinMessage()
 	{
-		this.win = new JFrame();
-		win.setSize(400,100);
-		win.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		win.setResizable(false);
-		win.setLocationRelativeTo(null);
-		
-		this.winMessage = new JLabel();
-		winMessage.setText("You win, ending game...");
-		
-		win.add(winMessage);
+
 		
 		win.setVisible(true);
 		
@@ -494,21 +501,9 @@ public class View extends JFrame
 			e.printStackTrace();
 		}
 		win.setVisible(false);
-		win.dispose();
 	}
 	public void setLoseMessage()
 	{
-		this.lose = new JFrame();
-		lose.setSize(400,100);
-		lose.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		lose.setResizable(false);
-		lose.setLocationRelativeTo(null);
-		
-		this.loseMessage = new JLabel();
-		loseMessage.setText("You lose, ending game...");
-		
-		lose.add(loseMessage);
-		
 		lose.setVisible(true);
 		
 		try {
@@ -518,6 +513,5 @@ public class View extends JFrame
 			e.printStackTrace();
 		}
 		lose.setVisible(false);
-		lose.dispose();
 	}
 }
