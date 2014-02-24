@@ -114,138 +114,156 @@ public class Controller implements ActionListener, Runnable
 		}else if(event.equals("00"))
 		{
 			//button at 0,0 presses
-			m.makeMove(0, 0);
-			int p = m.getPiece();
-			v.setPieceIcon(0, 0, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(0, 0))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(0, 0, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("01"))
 		{
-			m.makeMove(0, 1);
-			int p = m.getPiece();
-			v.setPieceIcon(0, 1, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(0, 1))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(0, 1, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("02"))
 		{
-			m.makeMove(0, 2);
-			int p = m.getPiece();
-			v.setPieceIcon(0, 2, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(0, 2))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(0, 2, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("10"))
 		{
-			m.makeMove(1, 0);
-			int p = m.getPiece();
-			v.setPieceIcon(1, 0, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(1, 0))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(1, 0, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("11"))
 		{
-			m.makeMove(1, 1);
-			int p = m.getPiece();
-			v.setPieceIcon(1, 1, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(1, 1))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(1, 1, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("12"))
 		{
-			m.makeMove(1, 2);
-			int p = m.getPiece();
-			v.setPieceIcon(1, 2, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(1, 2))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(1, 2, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("20"))
 		{
-			m.makeMove(2, 0);
-			int p = m.getPiece();
-			v.setPieceIcon(2, 0, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(2, 0))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(2, 0, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("21"))
 		{
-			m.makeMove(2, 1);
-			int p = m.getPiece();
-			v.setPieceIcon(2, 1, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(2, 1))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(2, 1, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}else if(event.equals("22"))
 		{
-			m.makeMove(2, 2);
-			int p = m.getPiece();
-			v.setPieceIcon(2, 2, p);
-			int win = m.haveWinCondition();
-			if(win == -1)
+			if(m.makeMove(2, 2))
 			{
-				m.endGame();
-				v.setLoseMessage();
-			}else if(win == 1)
-			{
-				m.endGame();
-				v.setWinMessage();
+				int p = m.getPiece();
+				v.setPieceIcon(2, 2, p);
+				int win = m.haveWinCondition();
+				if(win == -1)
+				{
+					m.endGame();
+					v.setLoseMessage();
+				}else if(win == 1)
+				{
+					m.endGame();
+					v.setWinMessage();
+				}
 			}
 		}
 	}
@@ -297,6 +315,7 @@ public class Controller implements ActionListener, Runnable
 				}else if(c.getCommand().equals("ACCEPT"))
 				{
 					//Accept invite request
+					m.setIsTurn();
 					m.setHaveGame();
 					v.resetGameBoard();
 					v.setGameStartMessage();
@@ -337,25 +356,11 @@ public class Controller implements ActionListener, Runnable
 					if(win == -1)
 					{
 						m.endGame();
-						v.setLoseMessage();
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						v.closeLoseWindow();
+						v.setLoseMessage();	
 					}else if(win == 1)
 					{
 						m.endGame();
 						v.setWinMessage();
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						v.closeWinWindow();
 					}
 				}
 			}

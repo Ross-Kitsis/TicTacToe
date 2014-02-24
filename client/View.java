@@ -110,6 +110,15 @@ public class View extends JFrame implements ActionListener
 		rejectedMessage.setText("Invite rejected");
 		gameRejected.add(rejectedMessage);
 		
+		this.gameStarted = new JFrame();
+		gameStarted.setSize(400,100);
+		gameStarted.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		gameStarted.setResizable(false);
+		gameStarted.setLocationRelativeTo(null);
+		this.startMessage = new JLabel();
+		startMessage.setText("Invite accepted, game starting in 2 seconds");
+		gameStarted.add(startMessage);
+		
 		this.initialWindow();
 	}
 	public void setNewBoard()
@@ -457,54 +466,31 @@ public class View extends JFrame implements ActionListener
 	}
 	public void setGameStartMessage()
 	{
-		this.gameStarted = new JFrame();
-		gameStarted.setSize(400,100);
-		gameStarted.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		gameStarted.setResizable(false);
-		gameStarted.setLocationRelativeTo(null);
-		
-		this.startMessage = new JLabel();
-		startMessage.setText("Invite accepted, game starting in 2 seconds");
-		
-		gameStarted.add(startMessage);
-		
+		System.out.println("Setting game start message");
 		gameStarted.setVisible(true);
-		/*
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		//gameStarted.setVisible(false);
-		//gameStarted.dispose();
+		Timer t = new Timer(2500,this);
+		t.start();
+	}
+	public void closeStartWindow()
+	{
+		gameStarted.setVisible(false);
 	}
 	public void setGameRejectedMessage()
 	{		
 		gameRejected.setVisible(true);
-		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Timer t = new Timer(2500,this);
+		t.start();
+	}
+	public void closeRejectedWindow()
+	{
 		gameRejected.setVisible(false);
 	}
 	public void setWinMessage()
 	{
-
 		System.out.println("Setting win message");
 		win.setVisible(true);
-		Timer t = new Timer(2000,this);
+		Timer t = new Timer(2500,this);
 		t.start();
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		win.setVisible(false);
 	}
 	public void closeWinWindow()
 	{
@@ -515,16 +501,8 @@ public class View extends JFrame implements ActionListener
 		System.out.println("Setting lose message");
 
 		lose.setVisible(true);
-		Timer t = new Timer(2000,this);
+		Timer t = new Timer(2500,this);
 		t.start();
-		
-//		try {
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		lose.setVisible(false);
 	}
 	public void closeLoseWindow()
 	{
@@ -534,5 +512,7 @@ public class View extends JFrame implements ActionListener
 	{
 		closeLoseWindow();
 		closeWinWindow();
+		closeStartWindow();
+		closeRejectedWindow();
 	}
 }

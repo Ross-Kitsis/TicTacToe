@@ -42,7 +42,7 @@ public class Model
 	private UserBean opponent;
 	private boolean haveGame = false;
 	
-	
+	private boolean isTurn = false;
 	
 	public Model()
 	{
@@ -216,9 +216,6 @@ public class Model
 			
 			toPeer.writeObject(c);
 			
-			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
-			//ClientMessage r = (ClientMessage) fromPeer.readObject();
-
 			controlSocket.close();
 			
 		} catch (IOException e) {
@@ -226,13 +223,7 @@ public class Model
 			
 			e.printStackTrace();
 		} 
-//		catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
-//		return response;
+
 	}
 	public void acceptInvite(UserBean possibleOpponent, int possiblePiece)
 	{
@@ -245,14 +236,10 @@ public class Model
 			ClientMessage c = new ClientMessage();
 			c.setCommand("ACCEPT");
 			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
-			//this.piece = r.nextBoolean();
-			//c.setPiece(piece);
+
 			System.out.println("Accepting invite");
 			
 			toPeer.writeObject(c);
-			
-			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
-			//ClientMessage r = (ClientMessage) fromPeer.readObject();
 
 			controlSocket.close();
 			this.haveGame = true;
@@ -267,6 +254,7 @@ public class Model
 	public void setHaveGame()
 	{
 		this.haveGame = true;
+		this.isTurn = true;
 		System.out.println("Setting have game");
 	}
 	public boolean getHaveGame()
@@ -302,20 +290,14 @@ public class Model
 			ClientMessage c = new ClientMessage();
 			c.setCommand("REJECT");
 			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
-			//this.piece = r.nextBoolean();
-			//c.setPiece(piece);
 			System.out.println("Rejecting invite");
 			
 			toPeer.writeObject(c);
-			
-			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
-			//ClientMessage r = (ClientMessage) fromPeer.readObject();
-
+		
 			controlSocket.close();
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
+		} catch (IOException e) 
+		{
 			e.printStackTrace();
 		} 
 	}
@@ -348,13 +330,13 @@ public class Model
 
 					controlSocket.close();
 					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					
+				} catch (IOException e) 
+				{					
 					e.printStackTrace();
 				} 
 			}
-		}	
+		}
+		this.isTurn = false;
 		return canMove;
 	}
 	public int getPiece()
@@ -448,6 +430,7 @@ public class Model
 	{
 		this.opponent = null;
 		this.haveGame = false;
+		this.isTurn = false;
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 3; j++)
@@ -455,5 +438,13 @@ public class Model
 				board[i][j] = 0;
 			}
 		}
+	}
+	public boolean isTurn()
+	{
+		return isTurn;
+	}
+	public void setIsTurn()
+	{
+		this.isTurn = true;
 	}
 }
