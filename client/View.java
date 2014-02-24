@@ -378,7 +378,7 @@ public class View extends JFrame
 	}
 	public void setPieceIcon(int row, int col, int piece)
 	{
-		System.out.println("changing icon");
+		System.out.println("changing icon: ");
 		JButton toChange = board[row][col];
 		if(piece == -1)
 		{

@@ -115,8 +115,13 @@ public class Controller implements ActionListener, Runnable
 		{
 			//button at 0,0 presses
 			m.makeMove(0, 0);
-			int piece = m.getPiece();
-			v.setPieceIcon(0, 0, piece);
+			int p = m.getPiece();
+			v.setPieceIcon(0, 0, p);
+		}else if(event.equals("01"))
+		{
+			m.makeMove(0, 1);
+			int p = m.getPiece();
+			v.setPieceIcon(0, 1, p);
 		}
 	}
 	@Override
