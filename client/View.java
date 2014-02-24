@@ -50,6 +50,9 @@ public class View extends JFrame
 	private JFrame invite;
 	private JLabel inviteMessage;
 	
+	private ImageIcon x = new ImageIcon("x.jpg");
+	private ImageIcon o = new ImageIcon("circle.jpg");
+	
 	//Model
 	public Model m;
 	
@@ -74,7 +77,7 @@ public class View extends JFrame
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton button; 
-		ImageIcon x = new ImageIcon("x.jpg");
+		
 
 ///////First fow of tictactoe
 		button = new JButton(b00);
@@ -87,6 +90,7 @@ public class View extends JFrame
 		//button.setIcon(x);
 		board[0][0] = button;
 		//button.addActionListener(l)
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b01);
@@ -97,6 +101,7 @@ public class View extends JFrame
 		c.gridy = 0;
 		board[0][1] = button;
 		//button.setIcon(x);
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b02);
@@ -107,6 +112,7 @@ public class View extends JFrame
 		c.gridy = 0;
 		board[0][2] = button;
 		//button.setIcon(x);
+		button.addActionListener(control);
 		super.add(button, c);
 		
 ///////Second row
@@ -118,6 +124,7 @@ public class View extends JFrame
 		c.gridx = 0;
 		c.gridy = 1;
 		board[1][0] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b11);
@@ -127,6 +134,7 @@ public class View extends JFrame
 		c.gridx = 1;
 		c.gridy = 1;
 		board[1][1] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b12);
@@ -136,6 +144,7 @@ public class View extends JFrame
 		c.gridx = 2;
 		c.gridy = 1;
 		board[1][2] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 		
 ///////Thid row
@@ -148,6 +157,7 @@ public class View extends JFrame
 		c.gridx = 0;
 		c.gridy = 2;
 		board[2][0] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b21);
@@ -157,6 +167,7 @@ public class View extends JFrame
 		c.gridx = 1;
 		c.gridy = 2;
 		board[2][1] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 		
 		button = new JButton(b22);
@@ -166,6 +177,7 @@ public class View extends JFrame
 		c.gridx = 2;
 		c.gridy = 2;
 		board[2][2] = button;
+		button.addActionListener(control);
 		super.add(button, c);
 	
 ///////Fouth row
@@ -363,5 +375,17 @@ public class View extends JFrame
 	{
 		invite.setVisible(false);
 		invite.dispose();
+	}
+	public void setPieceIcon(int row, int col, int piece)
+	{
+		JButton toChange = board[row][col];
+		if(piece == -1)
+		{
+			toChange.setIcon(x);
+			super.repaint();
+		}else
+		{
+			
+		}
 	}
 }

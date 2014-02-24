@@ -32,7 +32,7 @@ public class Controller implements ActionListener, Runnable
 	private static final int controlDataSocketNumber = 25202;
 	
 	private UserBean possibleOpponent;
-	private boolean possiblePiece;
+	private int possiblePiece;
 	
 	public Controller(View v, Model m) 
 	{
@@ -107,6 +107,11 @@ public class Controller implements ActionListener, Runnable
 			//Reject user request for game
 			System.out.println("Invite rejected, need to send remote user reject");
 			v.closeInvite();
+		}else if(event.equals("b00"))
+		{
+			//button at 0,0 presses
+			int piece = m.getPiece();
+			v.setPieceIcon(0, 0, piece);
 		}
 	}
 	@Override
@@ -143,7 +148,7 @@ public class Controller implements ActionListener, Runnable
 				if(c.getCommand().equals("INVITE"))
 				{
 					this.possibleOpponent = c.getUser();
-					this.possiblePiece = !c.isPiece();
+					this.possiblePiece = c.getPiece() * -1;
 					v.setInviteView(c.getUser().getUserName());
 				}else if(c.getCommand().equals("ACCEPT"))
 				{

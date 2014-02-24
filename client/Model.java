@@ -32,7 +32,7 @@ public class Model
 	private static final int gameDataSocketNumber = 25201;
 	private static final int controlDataSocketNumber = 25202;
 	
-	private boolean piece;
+	private int piece;
 	Random r;
 	
 	private static final int controlServerType = 0;
@@ -206,7 +206,7 @@ public class Model
 			ClientMessage c = new ClientMessage();
 			c.setCommand("INVITE");
 			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
-			this.piece = r.nextBoolean();
+			this.piece = this.generatePiece();
 			c.setPiece(piece);
 			
 			this.sentInvite = true;
@@ -232,7 +232,7 @@ public class Model
 		
 //		return response;
 	}
-	public void acceptInvite(UserBean possibleOpponent, boolean possiblePiece)
+	public void acceptInvite(UserBean possibleOpponent, int possiblePiece)
 	{
 		this.opponent = possibleOpponent;
 		this.piece = possiblePiece;
@@ -286,5 +286,34 @@ public class Model
 		}
 		return null;
 		
+	}
+	public boolean makeMove(int row, int col)
+	{
+		boolean canMove = false;
+		if(this.haveGame)
+		{
+			if(board[row][col] == 0)
+			{
+				canMove = true;
+			}
+		}	
+		return canMove;
+	}
+	public int getPiece()
+	{
+		return this.piece;
+	}
+	private int generatePiece()
+	{
+		int toReturn = 0;
+		int max = 1;
+		int min = -1;
+		
+		while(toReturn == 0)
+		{
+			toReturn = r.nextInt((max - min) + 1) + min;
+		}
+		System.out.println(toReturn);
+		return toReturn;
 	}
 }

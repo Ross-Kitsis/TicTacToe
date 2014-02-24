@@ -13,7 +13,7 @@ public class ClientMessage implements Serializable
 	private String command;
 	private int x;
 	private int y;
-	private boolean piece;
+	private int piece;
 	private UserBean user;
 	private boolean accept;
 	
@@ -57,11 +57,11 @@ public class ClientMessage implements Serializable
 		this.y = y;
 	}
 
-	public boolean isPiece() {
+	public int getPiece() {
 		return piece;
 	}
 
-	public void setPiece(boolean piece) {
+	public void setPiece(int piece) {
 		this.piece = piece;
 	}
 
