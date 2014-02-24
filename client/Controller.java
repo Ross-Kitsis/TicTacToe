@@ -14,7 +14,6 @@ public class Controller implements ActionListener, Runnable
 	
 	private ArrayList<UserBean> onlineUsers;
 	
-	private String server;
 	
 	private int serverType = 0;
 	
@@ -105,6 +104,7 @@ public class Controller implements ActionListener, Runnable
 			v.closeInvite();
 			m.acceptInvite(possibleOpponent, possiblePiece);
 			v.resetGameBoard();
+			v.setGameStartMessage();
 			
 		}else if(event.equals("REJECT"))
 		{
@@ -117,41 +117,138 @@ public class Controller implements ActionListener, Runnable
 			m.makeMove(0, 0);
 			int p = m.getPiece();
 			v.setPieceIcon(0, 0, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("01"))
 		{
 			m.makeMove(0, 1);
 			int p = m.getPiece();
 			v.setPieceIcon(0, 1, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("02"))
 		{
 			m.makeMove(0, 2);
 			int p = m.getPiece();
 			v.setPieceIcon(0, 2, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("10"))
 		{
 			m.makeMove(1, 0);
 			int p = m.getPiece();
 			v.setPieceIcon(1, 0, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("11"))
 		{
 			m.makeMove(1, 1);
 			int p = m.getPiece();
 			v.setPieceIcon(1, 1, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
+		}else if(event.equals("12"))
+		{
+			m.makeMove(1, 2);
+			int p = m.getPiece();
+			v.setPieceIcon(1, 2, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("20"))
 		{
 			m.makeMove(2, 0);
 			int p = m.getPiece();
 			v.setPieceIcon(2, 0, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("21"))
 		{
 			m.makeMove(2, 1);
 			int p = m.getPiece();
 			v.setPieceIcon(2, 1, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}else if(event.equals("22"))
 		{
 			m.makeMove(2, 2);
 			int p = m.getPiece();
 			v.setPieceIcon(2, 2, p);
+			int win = m.haveWinCondition();
+			if(win == -1)
+			{
+				m.endGame();
+				v.setLoseMessage();
+			}else if(win == 1)
+			{
+				m.endGame();
+				v.setWinMessage();
+			}
 		}
 	}
 	@Override
@@ -188,18 +285,28 @@ public class Controller implements ActionListener, Runnable
 				System.out.println("Got client message with command: " + c.getCommand() );
 				if(c.getCommand().equals("INVITE"))
 				{
-					this.possibleOpponent = c.getUser();
-					this.possiblePiece = c.getPiece() * -1;
-					v.setInviteView(c.getUser().getUserName());
+					if(!m.getHaveGame())
+					{
+						//Dont have a game, may accept or reject
+						this.possibleOpponent = c.getUser();
+						this.possiblePiece = c.getPiece() * -1;
+						v.setInviteView(c.getUser().getUserName());
+					}else
+					{
+						//Have a game already, automatically reject
+						m.rejectInvite(c.getUser());
+					}
 				}else if(c.getCommand().equals("ACCEPT"))
 				{
 					//Accept invite request
 					m.setHaveGame();
 					v.resetGameBoard();
+					v.setGameStartMessage();
 					System.out.println("Got accept back");
 				}else if(c.getCommand().equals("REJECT"))
 				{
 					//Rejected invite
+					v.setGameRejectedMessage();
 				}
 			 }
 		} catch (IOException e) {
@@ -228,6 +335,14 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.setOpBoardMove(c.getRow(), c.getColumn(),c.getPiece());
 					v.setPieceIcon(c.getRow(), c.getColumn(), c.getPiece());
+					int win = m.haveWinCondition();
+					if(win == -1)
+					{
+						v.setLoseMessage();
+					}else if(win == 1)
+					{
+						v.setWinMessage();
+					}
 				}
 			}
 			

@@ -53,6 +53,18 @@ public class View extends JFrame
 	private ImageIcon x = new ImageIcon("x.jpg");
 	private ImageIcon o = new ImageIcon("circle.jpg");
 	
+	private JFrame gameStarted;
+	private JLabel startMessage;
+	
+	private JFrame gameRejected;
+	private JLabel rejectedMessage;
+	
+	private JFrame lose;
+	private JLabel loseMessage;
+	
+	private JFrame win;
+	private JLabel winMessage;
+	
 	//Model
 	public Model m;
 	
@@ -411,5 +423,101 @@ public class View extends JFrame
 				toChange.setText(i + "" + j);
 			}
 		}
+	}
+	public void setGameStartMessage()
+	{
+		this.gameStarted = new JFrame();
+		gameStarted.setSize(400,100);
+		gameStarted.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		gameStarted.setResizable(false);
+		gameStarted.setLocationRelativeTo(null);
+		
+		this.startMessage = new JLabel();
+		startMessage.setText("Invite accepted, game starting in 2 seconds");
+		
+		gameStarted.add(startMessage);
+		
+		gameStarted.setVisible(true);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gameStarted.setVisible(false);
+		gameStarted.dispose();
+	}
+	public void setGameRejectedMessage()
+	{
+		this.gameRejected = new JFrame();
+		gameRejected.setSize(400,100);
+		gameRejected.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		gameRejected.setResizable(false);
+		gameRejected.setLocationRelativeTo(null);
+		
+		this.rejectedMessage = new JLabel();
+		rejectedMessage.setText("Invite rejected");
+		
+		gameRejected.add(rejectedMessage);
+		
+		gameRejected.setVisible(true);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gameRejected.setVisible(false);
+		gameRejected.dispose();
+	}
+	public void setWinMessage()
+	{
+		this.win = new JFrame();
+		win.setSize(400,100);
+		win.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		win.setResizable(false);
+		win.setLocationRelativeTo(null);
+		
+		this.winMessage = new JLabel();
+		winMessage.setText("You win, ending game...");
+		
+		win.add(winMessage);
+		
+		win.setVisible(true);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gameRejected.setVisible(false);
+		gameRejected.dispose();
+	}
+	public void setLoseMessage()
+	{
+		this.lose = new JFrame();
+		lose.setSize(400,100);
+		lose.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		lose.setResizable(false);
+		lose.setLocationRelativeTo(null);
+		
+		this.loseMessage = new JLabel();
+		loseMessage.setText("You lose, ending game...");
+		
+		lose.add(loseMessage);
+		
+		lose.setVisible(true);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lose.setVisible(false);
+		lose.dispose();
 	}
 }

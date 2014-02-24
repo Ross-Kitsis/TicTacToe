@@ -33,7 +33,7 @@ public class Model
 	private static final int controlDataSocketNumber = 25202;
 	
 	private int piece;
-	Random r;
+	private Random r;
 	
 	private static final int controlServerType = 0;
 	private static final int gameDataServerType = 1;
@@ -41,6 +41,8 @@ public class Model
 	private boolean sentInvite = false;
 	private UserBean opponent;
 	private boolean haveGame = false;
+	
+	
 	
 	public Model()
 	{
@@ -265,7 +267,11 @@ public class Model
 	public void setHaveGame()
 	{
 		this.haveGame = true;
-		System.out.println("Starting game");
+		System.out.println("Setting have game");
+	}
+	public boolean getHaveGame()
+	{
+		return this.haveGame;
 	}
 	public String getIPAddress() throws SocketException
 	{
@@ -286,6 +292,32 @@ public class Model
 		}
 		return null;
 		
+	}
+	public void rejectInvite(UserBean possibleOpponent)
+	{
+		Socket controlSocket;
+		try {
+			controlSocket = new Socket(possibleOpponent.getIpAddress(), Model.controlDataSocketNumber);
+			ObjectOutputStream toPeer = new ObjectOutputStream(controlSocket.getOutputStream());
+			ClientMessage c = new ClientMessage();
+			c.setCommand("REJECT");
+			c.setUser(new UserBean(this.hostName, this.userName, this.ipAddress));
+			//this.piece = r.nextBoolean();
+			//c.setPiece(piece);
+			System.out.println("Rejecting invite");
+			
+			toPeer.writeObject(c);
+			
+			//ObjectInputStream fromPeer = new ObjectInputStream(controlSocket.getInputStream());
+			//ClientMessage r = (ClientMessage) fromPeer.readObject();
+
+			controlSocket.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} 
 	}
 	public boolean makeMove(int row, int col)
 	{
@@ -345,5 +377,53 @@ public class Model
 	public void setOpBoardMove(int row, int col, int oppiece)
 	{
 		board[row][col] = oppiece;
+	}
+	public int haveWinCondition()
+	{
+		int win = 0;
+		
+		for(int i = 0; i < 3; i++)
+		{
+			int total = 0;
+			
+			for(int j = 0; j < 3; j++)
+			{
+				total += board[i][j];
+			}
+			
+			if(total == (this.piece * 3))
+			{
+				//Win
+				win = 1;
+			}else if(total == (this.piece * -3))
+			{
+				//lose
+				win = -1;
+			}
+		}
+		
+		int rightDiag =  board[0][0] + board[1][1] + board[2][2];
+		int leftDiag =  board[0][2] + board[1][1] + board[2][0];
+		
+		if(rightDiag == (this.piece * 3))
+		{
+			win = 1;
+		}else if(rightDiag == (this.piece * -3))
+		{
+			win = -1;
+		}else if(leftDiag == (this.piece * 3))
+		{
+			win = 1;
+		}else if(leftDiag == (this.piece * -3))
+		{
+			win = -1;
+		}
+		
+		return win;
+	}
+	public void endGame()
+	{
+		this.opponent = null;
+		this.haveGame = false;
 	}
 }
