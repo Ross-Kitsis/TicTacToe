@@ -49,8 +49,7 @@ public class Model
 		//this.v = v;
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
-			//ipAddress = InetAddress.getByName(hostName).getHostAddress();
-			ipAddress = this.getIPAddress();
+			this.ipAddress = InetAddress.getByName(hostName).getHostAddress();
 			
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
@@ -58,13 +57,16 @@ public class Model
 			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
 			//control.start();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			try {
+				ipAddress = this.getIPAddress();
+			} catch (SocketException e1) {
+				
+				e1.printStackTrace();
+				System.out.println("Failed to get IP address from both DNS lookup and local adapters, exiting...");
+				System.exit(-4);
+			}
 			System.out.println("Could not get hostname");
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Could not get IP");
 		}
 	}
 	public void joinServer(String userName)
@@ -81,8 +83,9 @@ public class Model
 			
 			outToServer.writeObject(m);
 
-			outToServer.close();
-			toServer.close();
+			//outToServer.flush();
+			//outToServer.
+			//toServer.close();
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -106,8 +109,8 @@ public class Model
 			
 			
 			
-			outToServer.close();
-			toServer.close();
+			//outToServer.close();
+			//toServer.close();
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -170,6 +173,7 @@ public class Model
 					validServer = true;
 					System.out.println("Server replied; valid server");
 				}
+				toServer.close();
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -181,6 +185,7 @@ public class Model
 				e.printStackTrace();
 				 
 			}
+			
 		}
 		return validServer;
 	}

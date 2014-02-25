@@ -37,6 +37,7 @@ public class Responder extends Thread
 		
 		ServerMessage m;
 		try {
+			System.out.println("************" + socket.isClosed());
 			m = (ServerMessage) input.readObject();
 			
 			String message = m.getCommand();
@@ -63,12 +64,18 @@ public class Responder extends Thread
 				System.out.println("Got connection test msg");
 				output.writeObject("ACTIVE");
 			}
+			//input.close();
+			socket.close();
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("Class not found exception");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("");
+			System.out.println("IO exception");
+			System.out.println("************" + socket.isClosed());
 		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
