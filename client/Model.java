@@ -54,6 +54,7 @@ public class Model
 	public Model()
 	{
 		//this.v = v;
+		r = new Random(System.currentTimeMillis());
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
 			this.ipAddress = InetAddress.getByName(hostName).getHostAddress();
@@ -65,7 +66,6 @@ public class Model
 			
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
-			r = new Random(System.currentTimeMillis());
 
 		} catch (UnknownHostException e) {
 			
