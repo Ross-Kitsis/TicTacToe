@@ -57,6 +57,11 @@ public class Model
 		try {
 			hostName = InetAddress.getLocalHost().getHostName();
 			this.ipAddress = InetAddress.getByName(hostName).getHostAddress();
+			if(this.ipAddress.startsWith("127"))
+			{
+				//Found the loopback address; need to test local adapters
+				throw new UnknownHostException();
+			}
 			
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
