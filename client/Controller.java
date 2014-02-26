@@ -360,7 +360,6 @@ public class Controller implements ActionListener, Runnable
 			this.changeServerType();
 			 while(true) 
 			 {
-				 System.out.println("Here");
 				controlSocket = controlServerSocket.accept();
 				controlInput = new ObjectInputStream(controlSocket.getInputStream());
 				ClientMessage c = (ClientMessage) controlInput.readObject();
