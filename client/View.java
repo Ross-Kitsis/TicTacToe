@@ -74,6 +74,8 @@ public class View extends JFrame implements ActionListener
 	
 	private Controller control;
 	
+	Timer t = new Timer(2500,this);
+	
 	/**
 	 * Creates the primary view and sets to visible
 	 * Creates popup windows but does not set them to visible
@@ -170,7 +172,6 @@ public class View extends JFrame implements ActionListener
 		c.gridx = 1;
 		c.gridy = 0;
 		board[0][1] = button;
-		//button.setIcon(x);
 		button.addActionListener(control);
 		super.add(button, c);
 		
@@ -181,7 +182,6 @@ public class View extends JFrame implements ActionListener
 		c.gridx = 2;
 		c.gridy = 0;
 		board[0][2] = button;
-		//button.setIcon(x);
 		button.addActionListener(control);
 		super.add(button, c);
 		
@@ -279,7 +279,6 @@ public class View extends JFrame implements ActionListener
 		super.add(button, c);
 ///////Fifth row for errors
 		error = new JTextField();
-		//button = new JButton("test");
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 0.25;
 		c.weighty = 0.05;
@@ -328,6 +327,10 @@ public class View extends JFrame implements ActionListener
 	{
 		return this.f.getText();
 	}
+	/**
+	 * Sets online user buttons in the scroll pane
+	 * @param onlineUsers
+	 */
 	public void updateOnlineUsers(ArrayList<UserBean> onlineUsers)
 	{
 		JButton user;
@@ -354,6 +357,10 @@ public class View extends JFrame implements ActionListener
 		scrollPanel.repaint();
 		super.repaint();
 	}
+	/**
+	 * Sets the initial window which requests the directory server name/IP
+	 * Allows the user to input the server or cancel and quit the application
+	 */
 	public void initialWindow()
 	{
 		initial = new JFrame();
@@ -396,20 +403,28 @@ public class View extends JFrame implements ActionListener
 		
 		initial.setVisible(true);
 	}
+	/**
+	 * Returns the users directory server entry
+	 * @return Text in the initial window text field
+	 */
 	public String getServerEntry()
 	{
 		return this.server.getText();
 	}
+	/**
+	 * Sets an error message in the initial window in case entered directory server
+	 * Could not be contacted
+	 */
 	public void setInvalidServerError()
 	{
 		System.out.println("Invalid server");
 		ins.setText("Unable to contact directory server. Try again.");
 		ins.setForeground(Color.RED);
 	}
-	public void setModel(Model m)
-	{
-		this.m = m;
-	}
+	/**
+	 * Sets the incoming invite view, allows user to accept or reject an invite
+	 * @param userName
+	 */
 	public void setInviteView(String userName)
 	{
 		invite = new JFrame();
@@ -446,11 +461,20 @@ public class View extends JFrame implements ActionListener
 		
 		invite.setVisible(true);
 	}
+	/**
+	 * Closes the invite view
+	 */
 	public void closeInvite()
 	{
 		invite.setVisible(false);
 		invite.dispose();
 	}
+	/**
+	 * Sets a button icon to x or o based on the piece passed
+	 * @param row
+	 * @param col
+	 * @param piece
+	 */
 	public void setPieceIcon(int row, int col, int piece)
 	{
 		System.out.println("changing icon: ");
@@ -461,20 +485,19 @@ public class View extends JFrame implements ActionListener
 			toChange.setIcon(x);
 			toChange.invalidate();
 			super.invalidate();
-			//super.repaint();
 		}else
 		{
-			//toChange.setText("");
 			toChange.setText("");
 			toChange.setIcon(o);
 			toChange.invalidate();
 			super.invalidate();
-			//toChange.validate();
-			//super.repaint();
 		}
 		super.validate();
 		super.repaint();
 	}
+	/**
+	 * Resets the game board to default values
+	 */
 	public void resetGameBoard()
 	{
 		for(int i = 0; i < 3; i++)
@@ -487,64 +510,99 @@ public class View extends JFrame implements ActionListener
 			}
 		}
 	}
+	/**
+	 * Sets the game starting message to visible and starts a 2.5 second timer to close the window
+	 */
 	public void setGameStartMessage()
 	{
 		System.out.println("Setting game start message");
 		gameStarted.setVisible(true);
-		Timer t = new Timer(2500,this);
+		t.restart();
 		t.start();
 	}
+	/**
+	 * Closes the start window by setting its visibility to false
+	 */
 	public void closeStartWindow()
 	{
 		gameStarted.setVisible(false);
 	}
+	/**
+	 * Sets the game rejected message and starts a timer to close the window
+	 */
 	public void setGameRejectedMessage()
 	{		
 		gameRejected.setVisible(true);
-		Timer t = new Timer(2500,this);
+		t.restart();
 		t.start();
 	}
+	/**
+	 * Closes the game rejected window by setting its visibility to false
+	 */
 	public void closeRejectedWindow()
 	{
 		gameRejected.setVisible(false);
 	}
+	/**
+	 * Sets the win message and starts a timer to close the window
+	 */
 	public void setWinMessage()
 	{
 		System.out.println("Setting win message");
 		win.setVisible(true);
-		Timer t = new Timer(2500,this);
+		t.restart();
 		t.start();
 	}
+	/**
+	 * Closes the win window by setting its visibility to false
+	 */
 	public void closeWinWindow()
 	{
 		win.setVisible(false);
 	}
+	/**
+	 * Sets the lose message window and starts a timer to close the window
+	 */
 	public void setLoseMessage()
 	{
 		System.out.println("Setting lose message");
 
 		lose.setVisible(true);
-		Timer t = new Timer(2500,this);
+		t.restart();
 		t.start();
 	}
+	/**
+	 * Closes the lose window by setting its visibility to false
+	 */
 	public void closeLoseWindow()
 	{
 		lose.setVisible(false);
 	}
+	/**
+	 * Sets the tie message and starts a timer to close the window
+	 */
 	public void setTieMessage()
 	{
 		System.out.println("Setting tie message");
 
 		tie.setVisible(true);
-		Timer t = new Timer(2500,this);
+		t.restart();
 		t.start();
 	}
+	/**
+	 * Closes the tie window by setting its visibility to false
+	 */
 	public void closeTieWindow()
 	{
 		tie.setVisible(false);
 	}
+	/**
+	 * Catches timer events and closes popup window, also stops the timer to prevent further
+	 * timer event from firing
+	 */
 	public void actionPerformed(ActionEvent e) 
 	{
+		t.stop();
 		closeLoseWindow();
 		closeWinWindow();
 		closeStartWindow();

@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import Data.DAO;
 
-/*
+/**
  * Main server class that accepts incoming socket connections. When a connection is made
  * a new responder thread is created allowing the server to accept new connections while the responder
  * thread responds to the request. 

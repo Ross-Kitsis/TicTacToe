@@ -9,7 +9,7 @@ import Data.UserBean;
 
 import client.ServerMessage;
 
-/*
+/**
  * A multi-threaded class responsible for responding to client messages. 
  * Responds to JOIN, LEAVE and LIST messages
  * 
@@ -33,7 +33,7 @@ public class Responder extends Thread
 			System.out.println(e.getMessage());
 		}
 	}
-	/*
+	/**
 	 * Method automatically run when thread starts. Reads incoming message and responds accordingly
 	 */
 	public void run() 
