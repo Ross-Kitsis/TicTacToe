@@ -517,8 +517,8 @@ public class View extends JFrame implements ActionListener
 	{
 		System.out.println("Setting game start message");
 		gameStarted.setVisible(true);
-		t.restart();
-		t.start();
+		//t.restart();
+	//	t.start();
 	}
 	/**
 	 * Closes the start window by setting its visibility to false
