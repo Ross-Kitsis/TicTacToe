@@ -12,10 +12,8 @@ import Data.UserBean;
 
 /**
  * Handles all view related functionality for the TicTacTow game
- * @author rkitsis
  *  
  */
-
 
 public class View extends JFrame implements ActionListener
 {
@@ -68,11 +66,19 @@ public class View extends JFrame implements ActionListener
 	private JFrame win;
 	private JLabel winMessage;
 	
+	private JFrame tie;
+	private JLabel tieMessage;
+	
 	//Model
 	public Model m;
 	
 	private Controller control;
 	
+	/**
+	 * Creates the primary view and sets to visible
+	 * Creates popup windows but does not set them to visible
+	 * @param m
+	 */
 	public View(Model m)
 	{
 		super.setSize(800,800);
@@ -119,8 +125,20 @@ public class View extends JFrame implements ActionListener
 		startMessage.setText("Invite accepted, game starting in 2 seconds");
 		gameStarted.add(startMessage);
 		
+		this.tie = new JFrame();
+		tie.setSize(400,100);
+		tie.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		tie.setResizable(false);
+		tie.setLocationRelativeTo(null);
+		this.tieMessage = new JLabel();
+		tieMessage.setText("Game tied, ending game...");
+		tie.add(tieMessage);
+		
 		this.initialWindow();
 	}
+	/**
+	 * Sets a new board, setting all elements in the main frame
+	 */
 	public void setNewBoard()
 	{
 		initial.setVisible(false);
@@ -268,6 +286,7 @@ public class View extends JFrame implements ActionListener
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 3;
+		error.setEditable(false);
 		super.add(error,c);
 	
 		
@@ -301,6 +320,10 @@ public class View extends JFrame implements ActionListener
 		
 		this.setVisible(true);
 	}
+	/**
+	 * Returns the text entered in the text field by the client
+	 * @return
+	 */
 	public String getText()
 	{
 		return this.f.getText();
@@ -508,11 +531,24 @@ public class View extends JFrame implements ActionListener
 	{
 		lose.setVisible(false);
 	}
+	public void setTieMessage()
+	{
+		System.out.println("Setting tie message");
+
+		tie.setVisible(true);
+		Timer t = new Timer(2500,this);
+		t.start();
+	}
+	public void closeTieWindow()
+	{
+		tie.setVisible(false);
+	}
 	public void actionPerformed(ActionEvent e) 
 	{
 		closeLoseWindow();
 		closeWinWindow();
 		closeStartWindow();
 		closeRejectedWindow();
+		closeTieWindow();
 	}
 }

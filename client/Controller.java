@@ -7,6 +7,14 @@ import java.util.*;
 
 import Data.UserBean;
 
+/**
+ * 
+ * Primary controller of client application. 
+ * Handles GUI events in the form of button clicks
+ * Runs 2 servers in separate threads to handle P2P communication 
+ *
+ */
+
 public class Controller implements ActionListener, Runnable
 {
 	private View v;
@@ -20,13 +28,11 @@ public class Controller implements ActionListener, Runnable
 	private ServerSocket controlServerSocket = null;
 	private Socket controlSocket = null;
 	private ObjectInputStream controlInput = null;
-	private ObjectOutputStream controlOutput = null;
 	
 	private ServerSocket gameDataServerSocket = null;
 	private Socket gameDataSocket = null;
 	
 	private ObjectInputStream gameInput = null;
-	private ObjectOutputStream gameOutput = null;
 	
 	private static final int gameDataSocketNumber = 25201;
 	private static final int controlDataSocketNumber = 25202;
@@ -34,6 +40,11 @@ public class Controller implements ActionListener, Runnable
 	private UserBean possibleOpponent;
 	private int possiblePiece;
 	
+	/**
+	 * Controler constructor, creates server threads
+	 * @param View v
+	 * @param Model m
+	 */
 	public Controller(View v, Model m) 
 	{
 		this.v = v;
@@ -56,7 +67,11 @@ public class Controller implements ActionListener, Runnable
 		Thread gameData = new Thread(this);
 		gameData.start();
 	}
-	@Override
+	/**
+	 * Action listener catching button click events
+	 * Does not implement any game logic, rather calls model to implement game logic
+	 * based on the event
+	 */
 	public void actionPerformed(ActionEvent e) 
 	{
 		String event = e.getActionCommand();
@@ -65,7 +80,7 @@ public class Controller implements ActionListener, Runnable
 		
 		if(event.equals("JOIN"))
 		{
-			//System.out.println("Join pressed" + v.getText());
+			//User pressed JOIN
 			if(v.getText().length() == 0)
 			{
 				System.out.println("No name entered");
@@ -73,16 +88,21 @@ public class Controller implements ActionListener, Runnable
 			m.joinServer(v.getText());
 		}else if(event.equals("LEAVE"))
 		{
+			//User pressed leave
 			m.leaveServer();
 		}else if(event.equals("LIST"))
 		{
+			//User pressed LIST
 			onlineUsers = m.listOnlineUsers();
 			v.updateOnlineUsers(onlineUsers);
 		}else if(event.equals("CANCEL"))
 		{
+			//User canceled initial window, exit application
 			System.exit(0);
 		}else if(event.equals("OKAY"))
 		{
+			//User entered directory server name/IP, model validates directory server
+			//Based on validation start server or display an error
 			if(m.setServer(v.getServerEntry()))
 			{
 				//Server replied and was valid, display the game board
@@ -93,13 +113,13 @@ public class Controller implements ActionListener, Runnable
 				v.setInvalidServerError();
 				
 			}
-			//Need to create a method in model to verify server name is valid and server accepting connections
 		}else if(event.contains("Invite:"))
 		{
+			//User entered invite
 			m.sendInvite(event);
 		}else if(event.equals("ACCEPT"))
 		{
-			//Start a new game with a users
+			//Invite accepted, start a new game
 			System.out.println("Invite accepted, need to send remote user accept");
 			v.closeInvite();
 			m.acceptInvite(possibleOpponent, possiblePiece);
@@ -113,7 +133,9 @@ public class Controller implements ActionListener, Runnable
 			v.closeInvite();
 		}else if(event.equals("00"))
 		{
-			//button at 0,0 presses
+			//button press at x,y
+			//Validate move with model and update GUI
+			//Check win conditions, if have win/lose/tie end the game and set message
 			if(m.makeMove(0, 0))
 			{
 				int p = m.getPiece();
@@ -127,6 +149,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("01"))
@@ -144,6 +170,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("02"))
@@ -157,10 +187,15 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setLoseMessage();
+					
 				}else if(win == 1)
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("10"))
@@ -178,6 +213,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("11"))
@@ -195,6 +234,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("12"))
@@ -212,6 +255,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("20"))
@@ -229,6 +276,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("21"))
@@ -246,6 +297,10 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}else if(event.equals("22"))
@@ -263,11 +318,17 @@ public class Controller implements ActionListener, Runnable
 				{
 					m.endGame();
 					v.setWinMessage();
+				}else if(win == -2)
+				{
+					m.endGame();
+					v.setTieMessage();
 				}
 			}
 		}
 	}
-	@Override
+	/**
+	 * Thread start point. Start the control server and game data server.
+	 */
 	public void run() {
 		// TODO Auto-generated method stub
 		if(serverType == 0)
@@ -281,12 +342,17 @@ public class Controller implements ActionListener, Runnable
 			this.runGameDataServer();
 		}
 	}
-	
+	/**
+	 * Incement the server type, used to change type f server thread creates
+	 */
 	private synchronized void changeServerType()
 	{
 		this.serverType++;
 	}
-	
+	/**
+	 * Runs the control server
+	 * Control server is responsible for accepting game invites and receiving game invite rejections
+	 */
 	public void runControlServer()
 	{
 		try {
@@ -327,19 +393,21 @@ public class Controller implements ActionListener, Runnable
 				}
 			 }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Could not start open P2P control socket on port 25201, exiting...");
 			System.exit(-3);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		 
 	}
+	/**
+	 * Runs the game data server.
+	 * Game data server is responsible for accepting game data; specifically moves
+	 * After each move checks win conditions and ends game if win/lose/tie
+	 */
 	public void runGameDataServer()
 	{
 		try {
-			
 			gameDataServerSocket = new ServerSocket(gameDataSocketNumber);
 			while(true)
 			{
@@ -362,15 +430,17 @@ public class Controller implements ActionListener, Runnable
 					{
 						m.endGame();
 						v.setWinMessage();
+					}else if(win == -2)
+					{
+						m.endGame();
+						v.setTieMessage();
 					}
 				}
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

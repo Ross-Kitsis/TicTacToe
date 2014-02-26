@@ -9,10 +9,14 @@ import Data.UserBean;
 
 import client.ServerMessage;
 
+/*
+ * A multi-threaded class responsible for responding to client messages. 
+ * Responds to JOIN, LEAVE and LIST messages
+ * 
+ */
 public class Responder extends Thread
 {
 	private Socket socket;
-	//private InputStreamReader input;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private DAO dataAccess;
@@ -22,8 +26,6 @@ public class Responder extends Thread
 		this.dataAccess = dataAccess;
 		try{
 			this.socket = socket;
-			//this.input = new InputStreamReader(socket.getInputStream());
-			//this.output = new DataOutputStream(socket.getOutputStream()); 
 			this.output = new ObjectOutputStream(socket.getOutputStream());
 			this.input = new ObjectInputStream(socket.getInputStream());
 		}catch(Exception e)
@@ -31,13 +33,13 @@ public class Responder extends Thread
 			System.out.println(e.getMessage());
 		}
 	}
-	
+	/*
+	 * Method automatically run when thread starts. Reads incoming message and responds accordingly
+	 */
 	public void run() 
 	{
-		
 		ServerMessage m;
 		try {
-			System.out.println("************" + socket.isClosed());
 			m = (ServerMessage) input.readObject();
 			
 			String message = m.getCommand();
@@ -49,35 +51,28 @@ public class Responder extends Thread
 				System.out.println("got join request");
 			}else if(message.equals("LEAVE"))
 			{
+				//Remove from list of users
 				this.dataAccess.leave(m.getUser());
-				System.out.println("got leave request");
-				//remove from the list of users (Let clients know somehow?)
-				
+				System.out.println("got leave request");				
 			}else if(message.equals("LIST"))
 			{
+				//Returns a list of online users
 				System.out.println("Got list request");
 				ArrayList<UserBean> toSend = this.dataAccess.list();
 				output.writeObject(toSend);
-				//Send client a serialized list of all online players
 			}else if(message.equals("TEST"))
 			{
+				//Responds to connection tests when a client starts
 				System.out.println("Got connection test msg");
 				output.writeObject("ACTIVE");
 			}
-			//input.close();
 			socket.close();
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Class not found exception");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			System.out.println("");
-			System.out.println("IO exception");
-			System.out.println("************" + socket.isClosed());
 		}catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

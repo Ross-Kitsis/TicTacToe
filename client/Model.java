@@ -7,11 +7,15 @@ import java.util.Enumeration;
 import java.util.Random;
 
 import Data.UserBean;
-import DirectoryServer.Responder;
+
+/**
+ * 
+ * The game data model, handle all game logic decisions and message transmission
+ *
+ */
 
 public class Model
 {
-	private View v;
 	
 	private int board[][] = new int[3][3];
 	final private static int directorySocket = 25200;
@@ -27,23 +31,26 @@ public class Model
 	private final String LIST = "LIST";
 	private final String TEST = "TEST";
 	
-	private ServerSocket gameData;
-	private ServerSocket controlData;
+
 	private static final int gameDataSocketNumber = 25201;
 	private static final int controlDataSocketNumber = 25202;
 	
 	private int piece;
 	private Random r;
 	
-	private static final int controlServerType = 0;
-	private static final int gameDataServerType = 1;
 	
-	private boolean sentInvite = false;
 	private UserBean opponent;
 	private boolean haveGame = false;
 	
 	private boolean isTurn = false;
 	
+	/**
+	 * Default constructor of model.
+	 * Sets the hostname to the computer hostname
+	 * Sets the IP address based on a DNS lookup of the computer, if DNS lookup fails sets based on first non-loopback
+	 * IP in the network adapters of the client
+	 * 
+	 */
 	public Model()
 	{
 		//this.v = v;
@@ -54,8 +61,7 @@ public class Model
 			System.out.println("Starting up client with hostname: " + hostName + " and IP " + ipAddress);
 			
 			r = new Random(System.currentTimeMillis());
-			//P2PServer control = new P2PServer(controlServerType, controlDataSocketNumber,v);
-			//control.start();
+
 		} catch (UnknownHostException e) {
 			
 			try {
@@ -69,6 +75,10 @@ public class Model
 			System.out.println("Could not get hostname");
 		}
 	}
+	/**
+	 * Sends a JOIN command to the directory server
+	 * @param userName
+	 */
 	public void joinServer(String userName)
 	{
 		try {
@@ -82,19 +92,16 @@ public class Model
 			m.setUser(new UserBean(this.hostName, userName, ipAddress));
 			
 			outToServer.writeObject(m);
-
-			//outToServer.flush();
-			//outToServer.
-			//toServer.close();
 			
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Sends a LEAVE command to the directory server
+	 */
 	public void leaveServer()
 	{
 		try {
@@ -107,19 +114,18 @@ public class Model
 
 			outToServer.writeObject(m);
 			
-			
-			
-			//outToServer.close();
-			//toServer.close();
 
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Sends a LIST command to the directory server
+	 * Returns the list of online users
+	 * @return 
+	 */
 	public ArrayList<UserBean> listOnlineUsers()
 	{
 		try{
@@ -133,7 +139,6 @@ public class Model
 			
 			ObjectInputStream serverInput = new ObjectInputStream(toServer.getInputStream());
 			onlineUsers = (ArrayList<UserBean>) serverInput.readObject();
-			//Need to receive output fom server
 			
 			outToServer.close();
 			serverInput.close();
@@ -142,14 +147,18 @@ public class Model
 		{
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return onlineUsers;
 	}
+	/**
+	 * Sets Directory server
+	 * Attempts to open a socket to the directory server; if successful accepts the server otherwise server is rejected
+	 * @param server
+	 * @return true if able to make connection to server
+	 */
 	public boolean setServer(String server)
 	{
 		boolean validServer = false;
@@ -175,20 +184,20 @@ public class Model
 				}
 				toServer.close();
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 
+				e.printStackTrace(); 
 			}
-			
 		}
 		return validServer;
 	}
+	/**
+	 * Searches the local list of online users for the desired user information.
+	 * Once user is found sends an invitation message to the users server
+	 * @param userName
+	 */
 	public void sendInvite(String userName)
 	{
 		String user = userName.split(": ")[1];
@@ -204,7 +213,6 @@ public class Model
 			}
 		}
 		
-		
 		Socket controlSocket;
 		try {
 			System.out.println("Setting up connection to: " + receiver.getIpAddress());
@@ -216,20 +224,23 @@ public class Model
 			this.piece = this.generatePiece();
 			c.setPiece(piece);
 			
-			this.sentInvite = true;
 			this.opponent = receiver;
 			
 			toPeer.writeObject(c);
 			
 			controlSocket.close();
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
+		} catch (IOException e) {			
 			e.printStackTrace();
 		} 
 
 	}
+	/**
+	 * Accepts an invite from a peer by sending an accept message to the peer
+	 * Sets the game piece and starts the game
+	 * @param possibleOpponent
+	 * @param possiblePiece
+	 */
 	public void acceptInvite(UserBean possibleOpponent, int possiblePiece)
 	{
 		this.opponent = possibleOpponent;
@@ -256,16 +267,29 @@ public class Model
 			e.printStackTrace();
 		} 
 	}
+	/**
+	 * Sets the haveGame parameter indicating the user is in a game
+	 */
 	public void setHaveGame()
 	{
 		this.haveGame = true;
 		this.isTurn = true;
 		System.out.println("Setting have game");
 	}
+	/**
+	 * Returns the haveGame parameter to determine if the user is in a game
+	 * @return
+	 */
 	public boolean getHaveGame()
 	{
 		return this.haveGame;
 	}
+	/**
+	 * Auxiliary method for finding a host IP if DNS unavailable
+	 * Loops through network adapters searching for first non-loopback IP
+	 * @return String representation of IP
+	 * @throws SocketException
+	 */
 	public String getIPAddress() throws SocketException
 	{
 		Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
@@ -286,6 +310,10 @@ public class Model
 		return null;
 		
 	}
+	/**
+	 * Sends a REJECT message to a peer if user does not wish to start a game
+	 * @param possibleOpponent
+	 */
 	public void rejectInvite(UserBean possibleOpponent)
 	{
 		Socket controlSocket;
@@ -306,6 +334,12 @@ public class Model
 			e.printStackTrace();
 		} 
 	}
+	/**
+	 * Validates a user move; if valid sends the move to the peer to update their game board
+	 * @param row - Row where move was made
+	 * @param col - Column where move was made
+	 * @return True if the move is valid
+	 */
 	public boolean makeMove(int row, int col)
 	{
 		boolean canMove = false;
@@ -315,9 +349,6 @@ public class Model
 			{
 				canMove = true;
 				board[row][col] = piece;
-				
-				
-				///Send move
 				
 				Socket controlSocket;
 				try {
@@ -344,10 +375,18 @@ public class Model
 		this.isTurn = false;
 		return canMove;
 	}
+	/**
+	 * Returns the users game piece
+	 * @return
+	 */
 	public int getPiece()
 	{
 		return this.piece;
 	}
+	/**
+	 * Generates a game piece, if -1 then x if 1 then o
+	 * @return
+	 */
 	private int generatePiece()
 	{
 		int toReturn = 0;
@@ -361,10 +400,20 @@ public class Model
 		System.out.println(toReturn);
 		return toReturn;
 	}
+	/**
+	 * Sets an opponents move to the current game board to keep boards consistent
+	 * @param row
+	 * @param col
+	 * @param oppiece
+	 */
 	public void setOpBoardMove(int row, int col, int oppiece)
 	{
 		board[row][col] = oppiece;
 	}
+	/**
+	 * Checks win/lose/tie conditions
+	 * @return 1 if win, -1 if lose, -2 if tie, 0 otherwise
+	 */
 	public int haveWinCondition()
 	{
 		int win = 0;
@@ -429,8 +478,30 @@ public class Model
 			win = -1;
 		}
 		
+		if(win == 0)
+		{
+			int numFill = 0;
+			for(int i = 0; i < 3; i++)
+			{
+				for(int j = 0; j < 3; j++)
+				{
+					if(board[i][j] != 0)
+					{
+						numFill++;
+					}
+				}
+			}
+			if(numFill == 9)
+			{
+				win = -2;
+			}
+		}
+		
 		return win;
 	}
+	/**
+	 * Ends game by reseting all game and peer parameters
+	 */
 	public void endGame()
 	{
 		this.opponent = null;
@@ -444,10 +515,17 @@ public class Model
 			}
 		}
 	}
+	/**
+	 * Returns the value of the users turn
+	 * @return true if users turn
+	 */
 	public boolean isTurn()
 	{
 		return isTurn;
 	}
+	/**
+	 * Sets the turn variable
+	 */
 	public void setIsTurn()
 	{
 		this.isTurn = true;
